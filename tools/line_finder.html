@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Team builder · Set 19 lines</title>
+<style>
+:root{--bg:#0b0d12;--panel:#12161f;--panel2:#181d29;--line:#222838;--line2:#2c3346;--text:#e9ecf3;--dim:#8f99ab;--acc:#7cc4ff;--good:#6fd39a;--bad:#ff8a8a;
+--c1:#8a94a6;--c2:#14b88a;--c3:#2f86d6;--c4:#c446dc;--c5:#f2b33d;--c7:#ff5e7a;
+--bronze:#b5835f;--silver:#aebccb;--gold:#e8b83f;--prism:linear-gradient(135deg,#8ff3ff,#c9a2ff 50%,#ffb8e8);
+--hw:clamp(38px,calc((100vw - 760px) / 8),62px);--hh:calc(var(--hw) * 1.15);--bw:clamp(32px,calc((100vw - 760px) / 10.5),52px);--r:12px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+header{display:flex;align-items:center;gap:14px;padding:14px 24px}
+header h1{font-size:19px;margin:0;letter-spacing:-.01em}header .meta{flex:1}
+.meta,.note{color:var(--dim);font-size:12px}
+h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:0 0 10px;font-weight:600}
+.btn{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:5px 11px;cursor:pointer;font-size:12px}
+.btn:hover{border-color:var(--line2)}.btn.on{border-color:var(--acc);color:var(--acc);background:#16233a}
+select,input[type=search]{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:8px;padding:6px 9px;font:inherit;font-size:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:2px 4px 2px 8px;font-size:12px}
+.chip button{background:none;border:0;cursor:pointer;color:var(--dim);padding:0 4px}
+.spacer{flex:1}
+/* top bar */
+.topbar{display:grid;grid-template-columns:auto minmax(220px,1fr) minmax(320px,1.3fr);gap:12px;padding:0 24px}
+.augs{display:flex;gap:8px}
+.aslot{width:52px;height:52px;border-radius:12px;border:1px dashed var(--line2);background:var(--panel2);display:grid;place-items:center;cursor:pointer;position:relative;padding:0}
+.aslot.filled{border:2px solid var(--tc,#aebccb)}
+.aslot .ic,.aslot .fb{width:100%;height:100%;border-radius:10px}
+.aslot .x{position:absolute;top:-7px;right:-7px;width:18px;height:18px;border-radius:50%;background:var(--line2);border:0;font-size:12px;line-height:18px;cursor:pointer;display:none}
+.aslot.filled:hover .x,.aslot.filled:focus-within .x{display:block}
+.slotlab{font-size:12px;color:var(--dim);text-align:center;margin-top:4px}
+.plus{font-size:19px;color:var(--dim)}
+.strength{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center}
+.big{font-size:24px;font-weight:750;font-variant-numeric:tabular-nums;line-height:1}
+.meter{height:6px;border-radius:3px;background:#232a3a;overflow:hidden;grid-column:1/-1}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,#3d7bd9,#6fd39a)}
+.shead{display:flex;justify-content:space-between;align-items:center;gap:10px}.shead h2{margin:0}.shead select{font-size:12px;padding:3px 6px}
+.parts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.parts span{font-size:12px;padding:3px 8px;border-radius:999px;background:#1c2230;color:var(--dim)}
+.parts .up{color:#6fd39a}.parts .down{color:#f08a7e}
+.avail{font-size:12px;padding:2px 8px;border-radius:999px;background:#1c2230;color:var(--dim)}.avail.ready{color:#6fd39a}.avail.progress{color:#f3cd55}.avail.closed{color:#f08a7e;text-decoration:line-through}
+.conds{display:flex;flex-direction:column;gap:8px}
+/* main */
+.main{display:grid;grid-template-columns:calc(var(--hw) * 7.5 + 48px) minmax(0,1fr);gap:14px 16px;padding:12px 24px;align-items:start}
+.itempanel .grid{display:grid;grid-template-columns:repeat(auto-fill,30px);gap:6px;padding-top:8px;justify-content:start}
+#traits{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0 14px}
+.kinds{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}.kinds .btn{padding:3px 8px}
+.itile{background:none;border:0;padding:0;cursor:grab;display:flex;justify-content:center}
+.itile .ic,.itile .fb{width:30px;height:30px;border-radius:6px}
+.itile:hover .ic{outline:2px solid var(--line2)}
+.itile .pname,.ptile .pname{display:none}
+.trait{display:flex;align-items:center;gap:8px;padding:3px 0}
+.tbadge{width:28px;height:32px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);display:grid;place-items:center;font-weight:800;font-size:12px;color:#14161c;background:#3a4152;flex:none}
+.tbadge.bronze{background:var(--bronze)}.tbadge.silver{background:var(--silver)}.tbadge.gold{background:var(--gold)}.tbadge.prism{background:var(--prism)}
+.tbadge.off{background:#232938;color:var(--dim)}
+.tname{font-size:12px;font-weight:600}.tsteps{font-size:12px;color:var(--dim)}.tsteps b{color:var(--text)}
+.trait.inactive .tname{color:var(--dim);font-weight:500}
+.tbadge img{width:64%;height:64%;object-fit:contain;filter:brightness(0);opacity:.85}
+.tbadge.off img,.tbadge.plain img{filter:none;opacity:.6}.tbadge.plain{background:#232938}
+.tcount{min-width:20px;height:20px;padding:0 3px;border-radius:5px;background:#1c2230;border:1px solid var(--line2);display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.trait.inactive .tcount{color:var(--dim)}
+button.trait{background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer;width:100%;border-radius:8px;padding:3px 4px}
+button.trait:hover,button.trait.open{background:#161c28}
+/* TFT-style panels: the trait popup (click a trait) and the champion card (hover a champion in the selector) */
+.pop,.ucard{position:fixed;z-index:60;background:linear-gradient(#141a26,#0c1018);border:1px solid #6b5a33;box-shadow:0 14px 36px #000d,inset 0 0 0 1px #000;border-radius:6px;color:var(--text)}
+.pop{padding:12px 14px;width:330px}
+.pop .ph{display:flex;align-items:center;gap:10px;margin-bottom:6px}.pop .ph .tbadge{width:34px;height:39px}
+.pop .pt{font-weight:800;font-size:16px}
+.pop .ps{color:#cdd5e3;font-size:12.5px;margin:6px 0 8px}
+.pop .bp{display:flex;gap:8px;font-size:12.5px;color:#7d879a;margin:4px 0}.pop .bp b{flex:none;min-width:24px}
+.pop .bp.on{color:var(--text)}.pop .bp.on b{color:var(--gold)}
+.pop .champs{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.cp{position:relative;width:42px;height:42px;flex:none}
+.cp .ic,.cp .fb{width:100%;height:100%;border:2px solid var(--cc);border-radius:4px;box-sizing:border-box}
+.cp:not(.lit) .ic,.cp:not(.lit) .fb{filter:grayscale(1) brightness(.42);border-color:#3a4152}
+.cp.lit .ic{box-shadow:0 0 8px color-mix(in srgb,var(--cc) 70%,transparent)}
+.cp:hover::after,.cp:focus::after{content:attr(data-name);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);white-space:nowrap;
+  background:#05070b;border:1px solid var(--line2);padding:2px 7px;border-radius:4px;font-size:11.5px;font-weight:600;z-index:2;pointer-events:none}
+.ucard{width:300px;pointer-events:none;overflow:hidden;border-color:var(--cc)}
+.ucard .uhead{display:flex;gap:11px;padding:11px;background:linear-gradient(90deg,color-mix(in srgb,var(--cc) 30%,transparent),transparent 75%)}
+.ucard .uport{width:66px;height:66px;border:2px solid var(--cc);border-radius:5px;flex:none}
+.ucard .un{font-weight:800;font-size:17px;line-height:1.15}
+.ucard .ucost{color:var(--gold);font-weight:800;font-size:13px;margin:2px 0 4px}
+.ucard .ut{display:flex;align-items:center;gap:6px;font-size:12.5px;margin-top:2px}.ucard .ut .tbadge{width:18px;height:21px}
+.ucard .ustats{display:flex;gap:6px;flex-wrap:wrap;padding:0 11px 9px}.ucard .ustats span{font-size:11.5px;padding:2px 8px;border-radius:999px;background:#1d2433;color:#cdd5e3}
+.ucard .uab{padding:9px 11px;font-size:12.5px;color:#cdd5e3;border-top:1px solid var(--line)}.ucard .uab b{color:var(--text)}
+.ucard .ulock{padding:7px 11px;font-size:12px;color:var(--c5);border-top:1px solid var(--line)}
+.ucard .ustars{font-size:14px;letter-spacing:-1px}.ucard .ustars.s1{color:#c9a46a}.ucard .ustars.s2{color:#cfd8e6}.ucard .ustars.s3{color:#f2c94c}.ucard .ustars.s4{color:#9ff0ff}
+.ucard .uitems{display:flex;flex-direction:column;gap:3px;padding:0 11px 9px}.ucard .uit{display:flex;align-items:center;gap:6px;font-size:12px;color:#cdd5e3}
+.ucard .uhint{padding:6px 11px;font-size:11px;color:var(--dim);border-top:1px solid var(--line)}
+.embl{display:grid;place-items:center;background:radial-gradient(#3b4257,#1a1f2c);border:1px solid #b08d3e;box-sizing:border-box}.embl img{width:70%;height:70%;object-fit:contain}
+.boardcol{display:flex;flex-direction:column;align-items:center;gap:10px}
+.board{padding:6px 0 2px}
+.hexrow{display:flex;gap:4px;margin-top:calc(var(--hh) * -0.25 + 4px)}.hexrow:first-child{margin-top:0}.hexrow.odd{margin-left:calc(var(--hw)/2 + 2px)}
+.hex,.bslot{position:relative;width:var(--hw);height:var(--hh);cursor:pointer;flex:none}
+.hex::before{content:"";position:absolute;inset:0;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#1a1f2c;transition:background .12s}
+.hex.filled{z-index:2}.hex.filled::before{background:var(--cc)}
+.hex.over::before,.bslot.over{background:#2c3a55!important}
+.hex.sel::before{background:var(--acc)}
+.face{position:absolute;inset:3px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);overflow:hidden;background:#111}
+.face img,.face .fb{width:100%;height:100%;object-fit:cover}
+.stars{position:absolute;top:-4px;left:0;right:0;text-align:center;font-size:12px;line-height:1;letter-spacing:-1px;text-shadow:0 1px 2px #000,0 0 3px #000;pointer-events:none}
+.stars.s1{color:#c9a27e}.stars.s2{color:#dfe7f0}.stars.s3{color:#ffd24a}
+.its{position:absolute;bottom:-8px;left:0;right:0;display:flex;justify-content:center;gap:1px;pointer-events:none;z-index:3}
+.its .mini{box-shadow:0 0 0 1px #000,0 2px 4px #000a}
+.under{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;width:100%}
+.bench{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.bslot{width:var(--bw);height:var(--bw);border-radius:8px;background:#151a25;border:1px dashed var(--line2)}
+.bslot.filled{border:2px solid var(--cc);background:#111}.bslot.sel{outline:2px solid var(--acc)}
+.bslot .face{inset:0;clip-path:none;border-radius:6px}.bslot .stars{top:-7px}.bslot .its{bottom:-7px}
+.held{display:flex;align-items:center;gap:6px;min-height:40px;padding:6px 10px;border:1px dashed var(--line2);border-radius:10px;min-width:200px;flex-wrap:wrap}
+.held.over{background:#1d2740}
+.insp{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:8px 12px;width:100%}
+.insp .pf{width:40px;height:40px;border-radius:8px;overflow:hidden;border:2px solid var(--cc);flex:none}
+/* icons */
+.ic{display:block;object-fit:cover}
+.fb{display:grid;place-items:center;background:linear-gradient(160deg,#2b3246,#191d29);color:var(--dim);font-weight:700;font-size:12px}
+.mini{width:20px;height:20px;border-radius:4px;border:1px solid #0008}
+.micro{width:15px;height:15px;border-radius:3px}
+.portrait{width:100%;height:100%}
+/* champion pool: everything visible, grouped by cost */
+.pool{margin:0;min-width:0;container-type:inline-size}
+.pooltabs{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.pgroups{display:flex;flex-direction:column;gap:8px}
+.pgroup{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+/* portraits sized so the largest cost group (22) fits one row of the panel: label 18px + 22 tiles + 21 gaps */
+.pgroups{--pt:clamp(26px,calc((100cqw - 104px) / 22),40px)}
+.pcost{font-size:12px;font-weight:700;color:var(--dim);width:14px;text-align:center}
+.ptile{background:none;border:0;padding:0;cursor:grab;position:relative}
+.ptile .pf{display:block;width:var(--pt);height:var(--pt);border-radius:8px;overflow:hidden;border:2px solid var(--cc);transition:transform .1s}
+.ptile:hover .pf{transform:translateY(-2px)}
+.lock{position:absolute;top:-3px;right:-3px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:1px solid var(--c5);font-size:12px;line-height:12px;color:var(--c5);font-weight:700;text-align:center}
+.costbtn{width:28px;padding:3px 0;text-align:center}
+/* lines */
+.lines{padding:20px 24px 30px}
+.summary{color:var(--dim);margin:0 0 12px;font-size:12px}.summary b{color:var(--text)}
+.suggest{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-bottom:18px}
+.sug{display:grid;grid-template-columns:64px 1fr;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:10px;cursor:pointer;text-align:left}
+.sug:hover{border-color:var(--line2)}.sug.open{border-color:var(--acc)}
+.sug .art{width:64px;height:64px;border-radius:10px;overflow:hidden;border:2px solid var(--cc)}
+.sug .art img,.sug .art .fb{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.sug .nm{font-weight:700;font-size:15px;line-height:1.2}
+.tierrow{display:grid;grid-template-columns:52px 1fr;gap:10px;margin-bottom:10px;align-items:stretch}
+.tb{display:grid;place-items:center;border-radius:10px;font-weight:800;font-size:19px;color:#14161c}
+.t-OP{background:#ff5d7d}.t-Splus{background:#ff9a52}.t-S{background:#f3cd55}.t-A{background:#8fd46a}.t-B{background:#62bde6}.t-C{background:#98a2b3}.t-D{background:#6b7385}
+.tagt{display:inline-block;border-radius:6px;padding:0 6px;font-weight:800;font-size:12px;color:#14161c;margin-right:6px}
+.cards{display:flex;flex-wrap:wrap;gap:10px}
+.ccard{position:relative;width:160px;height:104px;border-radius:12px;overflow:hidden;border:2px solid var(--cc);background:#111;cursor:pointer;padding:0;text-align:left}
+.ccard .cart{position:absolute;inset:0}.ccard .cart img,.ccard .cart .fb{width:100%;height:100%;object-fit:cover;object-position:50% 25%}
+.ccard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0000 30%,#000d 85%)}
+.ccard>span:not(.cart){position:absolute;z-index:1}
+.cstyle{top:6px;left:6px;font-size:12px;font-weight:700;background:#000b;border-radius:6px;padding:1px 6px}
+.cfit{top:6px;right:6px;font-size:12px;font-weight:700;background:#1d3b2b;color:var(--good);border-radius:6px;padding:1px 6px}
+.citems{top:30px;left:6px;display:flex;flex-direction:column;gap:2px}
+.cname{left:8px;right:40px;bottom:6px;font-size:12px;font-weight:700;line-height:1.2}
+.cplace{right:8px;bottom:6px;font-size:12px;font-variant-numeric:tabular-nums;color:var(--dim)}
+.ccard.open{outline:2px solid var(--acc);outline-offset:2px}.ccard:hover{transform:translateY(-1px)}
+.weak{margin:6px 0 14px}
+/* detail */
+.detail{margin:6px 0 18px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.dhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:12px}.dhead .name{font-size:19px;font-weight:700}
+.why{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;background:linear-gradient(135deg,#182036,#131824);border:1px solid #2a3654;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.whybig{text-align:center;min-width:110px}.whybig .num{font-size:24px;font-weight:800}
+.fall{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.step{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:4px 9px;background:#1e2536;font-size:12px}
+.step b{font-variant-numeric:tabular-nums}
+.reasons{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:4px 16px}
+.reason{display:flex;align-items:center;gap:8px;font-size:12px;padding:2px 0}
+.reason .v{font-variant-numeric:tabular-nums;font-weight:700;min-width:44px}
+.pivot{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.pv{display:flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+.stabs{display:flex;flex-wrap:wrap;gap:4px;align-items:flex-end;border-bottom:1px solid var(--line);margin-bottom:10px}
+.sgroup{display:flex;flex-direction:column;gap:2px}.sgroup .glabel{font-size:12px;color:var(--dim);padding-left:4px}
+.sgroup .row{gap:2px}
+.stab{background:none;border:0;border-bottom:2px solid transparent;padding:4px 10px;cursor:pointer;color:var(--dim);font-weight:600;font-size:12px}
+.stab.on{color:var(--text);border-color:var(--acc)}
+.hp{width:64px;background:var(--bg2,#161a22);color:inherit;border:1px solid var(--line,#2a2f3d);border-radius:6px;padding:4px 6px;margin-right:6px}
+.stagebody{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.mboard{--hw:44px;--hh:51px;padding:6px 0}.mboard .hex{cursor:default}
+.cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.col{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px}
+.tl{display:flex;gap:6px;flex-wrap:wrap}.tlstep{background:#1e2536;border-radius:8px;padding:4px 8px;font-size:12px;text-align:center;min-width:56px}
+.tlstep b{display:block;font-size:15px}
+.rb{height:4px;background:#2e3a55;border-radius:2px;margin-top:3px}.rb i{display:block;height:100%;background:var(--c5);border-radius:2px}
+.irow{display:flex;align-items:center;gap:8px;padding:4px 0}
+.uchip{display:inline-block;position:relative;width:34px;height:34px;border-radius:7px;overflow:hidden;border:2px solid var(--cc);flex:none}
+.uchip.have{box-shadow:0 0 0 2px var(--good)}
+.uchip .ustars{position:absolute;top:0;left:0;right:0;text-align:center;font-size:12px;line-height:1;color:#ffd24a;text-shadow:0 0 3px #000}
+.uchip.big3{width:44px;height:44px}
+.uits{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:center}
+.bunits{display:flex;flex-wrap:wrap;gap:3px}
+.bnote{font-size:12px;color:var(--dim);text-align:right;min-width:62px}
+.gain{color:var(--good)}.loss{color:var(--bad)}
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.rule{background:#1a2030;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.rule.own{border-color:#3d5a8a}
+.rtitle{font-weight:700;font-size:12px;margin-bottom:2px}
+.warn{color:var(--c5);font-weight:600}
+/* augment picker */
+dialog{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:14px;width:min(900px,94vw);max-height:84vh;padding:0}
+dialog::backdrop{background:#0009}
+.dlghead{display:flex;gap:8px;align-items:center;padding:12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;padding:12px;overflow:auto;max-height:64vh}
+.atile{display:grid;grid-template-columns:40px 1fr;gap:8px;align-items:center;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px;cursor:pointer}
+.atile .ic,.atile .fb{width:40px;height:40px;border-radius:8px;border:2px solid var(--tc,#aebccb)}
+.atile .an{font-size:12px;font-weight:600}.atile .as{font-size:12px;color:var(--dim);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+footer{color:var(--dim);font-size:12px;padding:14px 24px;border-top:1px solid var(--line)}
+@media (max-width:1100px){.topbar{grid-template-columns:1fr}.cols3{grid-template-columns:1fr}.stagebody{grid-template-columns:1fr}}
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}}
+</style></head><body>
+<header><h1>Team builder</h1><span class="meta">Set 19 PBE · drag units onto the board, drop items on them, pick augments. Static reference, manual input only.</span>
+<button class="btn" id="clear">Clear</button></header>
+<div class="topbar">
+  <section class="card" aria-label="Augments"><h2>Augments</h2><div class="augs" id="augs"></div></section>
+  <section class="card" id="strength" aria-label="Board strength"></section>
+  <section class="card conds" aria-label="Conditions"><h2 style="margin:0">Conditions</h2>
+    <div class="row toggles" id="styles"><button class="btn" data-v="reroll">Reroll</button><button class="btn" data-v="fast8">Fast 8</button><button class="btn" data-v="fast9">Fast 9</button>
+      <select id="damage" aria-label="Carry damage"><option value="">Any carry</option><option value="AD">AD carry</option><option value="AP">AP carry</option></select>
+      <select id="minTier" aria-label="Minimum tier"><option value="">Any tier</option><option>OP</option><option>S+</option><option>S</option><option>A</option><option>B</option></select>
+      <select id="sort" aria-label="Sort"><option value="tier">Tier, then where your board leads</option><option value="odds">Where my units lead</option><option value="lp">Expected LP</option><option value="top4">Top 4 chance</option><option value="place">Strongest</option></select></div>
+    <div class="row" id="musts"><span class="note">Shift-click a champion to require it, alt-click to exclude it.</span></div>
+  </section>
+</div>
+<div class="main">
+  <section class="boardcol" aria-label="Board">
+    <div class="board" id="board"></div>
+    <div class="under"><div class="bench" id="bench"></div></div>
+    <div class="under"><div class="held" id="held"></div></div>
+    <div class="insp" id="insp"></div>
+  </section>
+<section class="pool card" id="poolwrap" aria-label="Champions">
+  <div class="pooltabs">
+    <h2 style="margin:0">Champions</h2><span class="note">click or drag onto the board · hover for names</span>
+    <span class="spacer"></span>
+    <span id="unitFilters" class="row"><button class="btn costbtn" data-c="1">1</button><button class="btn costbtn" data-c="2">2</button><button class="btn costbtn" data-c="3">3</button><button class="btn costbtn" data-c="4">4</button><button class="btn costbtn" data-c="5">5</button><button class="btn costbtn" data-c="7">7</button>
+      <select id="traitSel" aria-label="Filter by trait"><option value="">All traits</option></select></span>
+    <input type="search" id="q" placeholder="Search" aria-label="Search champions">
+  </div>
+  <div class="pgroups" id="pool"></div>
+</section>
+  <section class="card itempanel" aria-label="Items"><h2>Items</h2><div class="kinds" id="itemFilters"></div>
+    <input type="search" id="iq" placeholder="Search items" aria-label="Search items" style="width:100%"><div class="grid" id="ipool"></div></section>
+  <section class="card traits" aria-label="Active traits"><h2>Traits</h2><div id="traits"></div></section>
+</div>
+<section class="lines" aria-live="polite"><h2>Lines</h2><p class="summary" id="summary"></p><div id="results"></div></section>
+<dialog id="augDlg" aria-label="Pick an augment">
+  <div class="dlghead"><input type="search" id="aq" placeholder="Search augments" aria-label="Search augments" style="flex:1">
+    <span class="row toggles" id="atiers"><button class="btn" data-v="silver">Silver</button><button class="btn" data-v="gold">Gold</button><button class="btn" data-v="prismatic">Prismatic</button></span>
+    <select id="acat" aria-label="Augment category"><option value="">All kinds</option></select><button class="btn" id="aclose">Close</button></div>
+  <div class="agrid" id="agrid"></div>
+</dialog>
+<footer>Expected place: MetaTFT PBE average (and lolchess variants, rescaled), moved only by measured effects: items and artifacts (22,784 Set 18 boards), augments by kind, round and fit (40,344 Master+ games), and your board's early strength (MetaTFT openers). Conditions and expert letters are shown, not weighted. Art: each champion's latest TFT set (Set 19 skins differ). Everything stays on this machine.</footer>
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+function el(tag, attrs, ...kids) {                     // strings become text nodes, never markup
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") e.className = v; else if (k.startsWith("on")) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v);
+  }
+  for (const k of kids.flat(Infinity)) if (k != null && k !== false) e.append(k instanceof Node ? k : String(k));
+  return e;
+}
+const fill = (node, ...kids) => { node.replaceChildren(); kids.flat(Infinity).forEach(k => k != null && k !== false && node.append(k instanceof Node ? k : String(k))); };
+const pct = x => x == null ? "–" : Math.round(x * 100) + "%";
+const places = p => !p ? "0" : (p > 0 ? "−" : "+") + Math.abs(p).toFixed(2);   // a gain lowers expected place
+const COST = c => `var(--c${[1, 2, 3, 4, 5, 7].includes(c) ? c : 1})`;
+const TIERC = {silver: "var(--silver)", gold: "var(--gold)", prismatic: "#c9a2ff"};
+const ROWS = 4, COLS = 7, BENCH = 9;
+let CAT, UNIT = {}, TRAIT = {}, KIND = {}, COMBINE = {}, LAST = null;
+const blank = () => ({board: {}, bench: Array(BENCH).fill(null), held: [], augments: [], styles: [], damage: "", minTier: "", sort: "tier",
+  showAll: false, must: [], excl: [], tab: "units", cost: 0, itemKind: "completed", open: null, sel: null, stage: "", lineTab: {}, hp: ""});
+const loadState = () => { try { return JSON.parse(localStorage.getItem("tb_state")) || {}; } catch (e) { return {}; } };   // a damaged save starts blank
+let S = Object.assign(blank(), loadState());
+if (typeof S.stage !== "string") S.stage = "";          // older saves kept the comp tabs here (now lineTab)
+if (!S.lineTab || typeof S.lineTab !== "object") S.lineTab = {};
+const save = () => localStorage.setItem("tb_state", JSON.stringify(S));
+
+function icon(kind, name, cls) {
+  const p = CAT.icons[kind] && CAT.icons[kind][name];
+  if (p) return el("img", {class: "ic " + (cls || ""), src: "/icons/" + p, alt: name, draggable: "false", loading: "lazy"});
+  const tp = kind === "items" && name.endsWith(" Emblem") && CAT.icons.traits && CAT.icons.traits[name.slice(0, -7)];
+  if (tp) return el("span", {class: "ic embl " + (cls || ""), role: "img", "aria-label": name, title: name}, el("img", {src: "/icons/" + tp, alt: "", draggable: "false"}));
+  const ini = name.replace(/ Emblem$/, "").split(/[\s/&'-]+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+  return el("span", {class: "ic fb " + (cls || ""), role: "img", "aria-label": name, title: name}, ini);
+}
+// a trait's icon on TFT's hexagon (style: off / bronze / silver / gold / prism, or plain)
+function traitHex(t, style, label) {
+  const p = CAT.icons.traits && CAT.icons.traits[t];
+  return el("span", {class: "tbadge " + style, role: label ? "img" : null, "aria-label": label || null, "aria-hidden": label ? null : "true"},
+    p ? el("img", {src: "/icons/" + p, alt: "", draggable: "false"}) : t.split(/[\s/&-]+/).map(w => w[0]).join("").slice(0, 2));
+}
+// ---- board state ----
+const get = (z, i) => z === "board" ? S.board[i] || null : S.bench[i];
+function put(z, i, v) { if (z === "board") { if (v) S.board[i] = v; else delete S.board[i]; } else S.bench[i] = v; }
+function addUnit(name) {
+  const melee = (UNIT[name].range || 1) <= 1;          // front row for melee, back row for ranged
+  const rows = melee ? [0, 1, 2, 3] : [3, 2, 1, 0];
+  for (const r of rows) for (let c = 0; c < COLS; c++) { const i = r * COLS + (melee ? c : COLS - 1 - c); if (!S.board[i]) { S.board[i] = {unit: name, stars: 1, items: []}; S.sel = {z: "board", i}; return update(); } }
+  const b = S.bench.indexOf(null); if (b >= 0) { S.bench[b] = {unit: name, stars: 1, items: []}; S.sel = {z: "bench", i: b}; }
+  update();
+}
+function giveItem(u, name) {                            // two components on one unit combine, as in game
+  if (KIND[name] === "components") {
+    const k = u.items.findIndex(x => KIND[x] === "components");
+    if (k >= 0) { const made = COMBINE[[u.items[k], name].sort().join("|")]; if (made) { u.items[k] = made; return true; } }
+  }
+  if (u.items.length >= 3) return false;
+  u.items.push(name); return true;
+}
+const setDrag = (e, d) => { e.dataTransfer.setData("text/plain", JSON.stringify(d)); e.dataTransfer.effectAllowed = "copyMove"; };
+const readDrag = e => { try { return JSON.parse(e.dataTransfer.getData("text/plain")); } catch { return null; } };
+function dropOn(z, i, d) {
+  if (!d) return;
+  const cur = get(z, i);
+  if (d.type === "unit") { put(z, i, {unit: d.name, stars: 1, items: []}); S.sel = {z, i}; }
+  else if (d.type === "move") { const src = get(d.z, d.i); put(d.z, d.i, cur); put(z, i, src); S.sel = {z, i}; }
+  else if ((d.type === "item" || d.type === "held") && cur) { if (giveItem(cur, d.name) && d.type === "held") S.held.splice(d.i, 1); S.sel = {z, i}; }
+  update();
+}
+function target(node, onDrop) {
+  node.addEventListener("dragover", e => { e.preventDefault(); node.classList.add("over"); });
+  node.addEventListener("dragleave", () => node.classList.remove("over"));
+  node.addEventListener("drop", e => { e.preventDefault(); node.classList.remove("over"); onDrop(readDrag(e)); });
+}
+function slot(z, i) {
+  const u = get(z, i), sel = S.sel && S.sel.z === z && S.sel.i === i;
+  const node = el("div", {class: (z === "board" ? "hex" : "bslot") + (u ? " filled" : "") + (sel ? " sel" : ""), tabindex: "0", role: "button",
+    style: u ? `--cc:${COST(UNIT[u.unit] && UNIT[u.unit].cost)}` : null, draggable: u ? "true" : null,
+    "aria-label": u ? `${u.unit}, ${u.stars} star${u.stars > 1 ? "s" : ""}${u.items.length ? ", holding " + u.items.join(", ") : ""}` : `empty ${z} slot`},
+    u ? [el("div", {class: "face"}, icon("units", u.unit, "portrait")), el("div", {class: "stars s" + u.stars}, "★".repeat(u.stars)),
+      el("div", {class: "its"}, u.items.map(it => icon("items", it, "mini")))] : null);
+  target(node, d => dropOn(z, i, d));
+  if (u) {                                               // the champion card, with this unit's stars and items
+    const key = `${z}:${i}`, show = () => { HOVER = key; showUnitCard(UNIT[u.unit], node, u, key); };
+    node.addEventListener("mouseenter", show);
+    node.addEventListener("focus", show);
+    node.addEventListener("mouseleave", () => { if (HOVER === key) HOVER = null; hideUnitCard(); });
+    node.addEventListener("blur", () => hideUnitCard(key));
+    // a re-render (clicking selects the unit) replaces this node and blurs the old one: show the card again once the
+    // new node is in place -- a microtask, which runs right after the click handler whether or not the page is painting
+    if (HOVER === key) queueMicrotask(() => node.isConnected && HOVER === key && showUnitCard(UNIT[u.unit], node, u, key));
+  }
+  if (u) node.addEventListener("dragstart", e => { HOVER = null; hideUnitCard(); setDrag(e, {type: "move", z, i}); });
+  node.addEventListener("click", () => { S.sel = u ? {z, i} : null; update(false); });
+  node.addEventListener("contextmenu", e => { if (u) { e.preventDefault(); put(z, i, null); S.sel = null; update(); } });
+  node.addEventListener("keydown", e => {             // stars and Delete: the page-level handler (selection survives re-render)
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); node.click(); }
+  });
+  return node;
+}
+// ---- traits ----
+function traitStyle(tier, n) {
+  if (!tier) return "off";
+  if (n === 1) return "gold";
+  const m = {2: ["bronze", "gold"], 3: ["bronze", "silver", "gold"], 4: ["bronze", "silver", "gold", "prism"]}[n] || ["bronze", "silver", "gold", "gold", "prism"];
+  return m[Math.min(tier, m.length) - 1];
+}
+function activeTraits() {
+  const best = {}, extra = {};
+  for (const u of Object.values(S.board)) {
+    best[u.unit] = Math.max(best[u.unit] || 0, u.stars);
+    for (const it of u.items) if (it.endsWith(" Emblem")) (extra[u.unit] = extra[u.unit] || new Set()).add(it.slice(0, -7));
+  }
+  const cnt = {};
+  for (const [n, st] of Object.entries(best)) {
+    for (const t of new Set([...(UNIT[n] ? UNIT[n].traits : []), ...(extra[n] || [])])) {
+      if (TRAIT[t] && TRAIT[t].breakpoints.length) cnt[t] = (cnt[t] || 0) + (TRAIT[t].counts === "stars" ? st : 1);
+    }
+  }
+  return Object.entries(cnt).map(([t, n]) => { const b = TRAIT[t].breakpoints; return {t, n, b, tier: b.filter(x => n >= x).length}; })
+    .sort((a, b) => (b.tier > 0) - (a.tier > 0) || b.tier / b.b.length - a.tier / a.b.length || b.n - a.n || a.t.localeCompare(b.t));
+}
+function renderTraits() {
+  const ts = activeTraits();
+  fill($("#traits"), ts.length ? ts.map(x => el("button", {class: "trait" + (x.tier ? "" : " inactive") + (POP && POP.trait === x.t ? " open" : ""),
+      "aria-label": `${x.t}: ${x.n} of ${x.b.join(" / ")}. Show the trait and its champions`, "aria-expanded": POP && POP.trait === x.t ? "true" : "false",
+      onclick: e => { e.stopPropagation(); openTrait(x.t, e.currentTarget); }},
+    traitHex(x.t, traitStyle(x.tier, x.b.length)), el("span", {class: "tcount"}, x.n),
+    el("div", {}, el("div", {class: "tname"}, x.t), el("div", {class: "tsteps"}, x.b.map((v, k) => [k ? " / " : "", x.n >= v ? el("b", {}, v) : String(v)])))))
+    : el("p", {class: "note"}, "Traits appear as you add units."));
+  if (POP && !ts.some(x => x.t === POP.trait)) closeTrait();   // its trait left the board
+  else if (POP) { POP.anchor = document.querySelector("button.trait.open") || POP.anchor; drawTrait(); }   // in step with the board
+}
+// ---- trait panel: what the trait does and every champion with it, yours lit (as in TFT) ----
+let POP = null;                                          // {trait, anchor, node}
+function closeTrait() { if (POP) { POP.node.remove(); POP = null; document.querySelectorAll("button.trait.open").forEach(b => { b.classList.remove("open"); b.setAttribute("aria-expanded", "false"); }); } }
+function openTrait(t, anchor) {
+  if (POP && POP.trait === t) return closeTrait();
+  closeTrait();
+  POP = {trait: t, anchor, node: el("div", {class: "pop", role: "dialog", "aria-label": t + " trait"})};
+  document.body.append(POP.node);
+  anchor.classList.add("open"); anchor.setAttribute("aria-expanded", "true");
+  drawTrait();
+}
+function drawTrait() {
+  const t = POP.trait, info = TRAIT[t] || {breakpoints: [], effects: {}};
+  const cur = activeTraits().find(x => x.t === t), n = cur ? cur.n : 0, tier = cur ? cur.tier : 0;
+  const onBoard = new Set(Object.values(S.board).map(u => u.unit)), onBench = new Set(S.bench.filter(Boolean).map(u => u.unit));
+  const members = CAT.units.filter(u => u.traits.includes(t)).sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name));
+  const kind = {origin: "Origin", "class": "Class", unique: "Unique trait"}[info.kind] || "Trait";
+  fill(POP.node,
+    el("div", {class: "ph"}, traitHex(t, traitStyle(tier, info.breakpoints.length)),
+      el("div", {}, el("div", {class: "pt"}, t), el("div", {class: "note"}, `${kind} · ${n} ${info.counts === "stars" ? "star levels" : "units"} on your board`))),
+    info.summary ? el("p", {class: "ps"}, info.summary) : null,
+    info.breakpoints.map(b => el("div", {class: "bp" + (n >= b ? " on" : "")}, el("b", {}, `(${b})`), (info.effects || {})[String(b)] || "")),
+    el("div", {class: "champs"}, members.map(u => {
+      const where = onBoard.has(u.name) ? "on your board" : onBench.has(u.name) ? "on your bench" : "";
+      return el("span", {class: "cp" + (where ? " lit" : ""), style: `--cc:${COST(u.cost)}`, tabindex: "0",
+        "data-name": u.name + (where ? ` · ${where}` : ""), "aria-label": `${u.name}, ${u.cost}-cost${where ? ", " + where : ""}`}, icon("units", u.name));
+    })));
+  const r = POP.anchor.getBoundingClientRect();
+  const w = POP.node.offsetWidth, h = POP.node.offsetHeight;
+  const left = r.right + 10 + w < innerWidth ? r.right + 10 : Math.max(8, r.left - w - 10);
+  POP.node.style.left = left + "px";
+  POP.node.style.top = Math.max(8, Math.min(innerHeight - h - 8, r.top - 10)) + "px";
+}
+// ---- champion card: hover or focus a champion in the selector ----
+let UC = null, UCK = null, HOVER = null;              // the card, what it's for ("pool:Annie", "board:21"), the hovered slot
+function hideUnitCard(only) {                            // only: that key ("board:21"), or a prefix ending in ":" ("pool:")
+  if (UC && (!only || UCK === only || (only.endsWith(":") && (UCK || "").startsWith(only)))) { UC.remove(); UC = null; UCK = null; }
+}
+function showUnitCard(u, anchor, placed, key) {
+  if (!u) return;
+  hideUnitCard();
+  const st = placed ? placed.stars : 1, hp = u.hp ? Math.round(u.hp * Math.pow(1.8, st - 1)) : null;   // game rule: x1.8 HP per star
+  const rng = u.range == null ? null : u.melee || u.range <= 1 ? `Melee · ${u.range} hex` : `Ranged · ${u.range} hexes`;
+  UC = el("div", {class: "ucard", style: `--cc:${COST(u.cost)}`, role: "tooltip", id: "ucard"},
+    el("div", {class: "uhead"}, icon("units", u.name, "uport"),
+      el("div", {}, el("div", {class: "un"}, u.name, placed ? el("span", {class: "ustars s" + st}, " " + "★".repeat(st)) : null),
+        el("div", {class: "ucost"}, `● ${u.cost}`),
+        u.traits.map(t => el("div", {class: "ut"}, traitHex(t, "plain"), t)))),
+    el("div", {class: "ustats"}, [u.role, rng, hp ? `${hp} HP` + (placed && st > 1 ? ` at ${st}★` : "") : null, u.damage ? `${u.damage} damage` : null]
+      .filter(Boolean).map(x => el("span", {}, x))),
+    placed && placed.items.length ? el("div", {class: "uitems"}, placed.items.map(it => el("span", {class: "uit"}, icon("items", it, "mini"), it))) : null,
+    u.ability ? el("div", {class: "uab"}, el("b", {}, "Ability: "), u.ability) : null,
+    u.unlock ? el("div", {class: "ulock"}, "Unlock: " + u.unlock) : null,
+    el("div", {class: "uhint"}, placed ? "Click to select · keys 1-3: stars · drop items on it · drag to move · Delete or right-click: remove"
+                                       : "Click or drag to add · shift-click: must include · alt-click: exclude"));
+  UCK = key || "pool:" + u.name;
+  document.body.append(UC);
+  const r = anchor.getBoundingClientRect(), w = UC.offsetWidth, h = UC.offsetHeight;
+  UC.style.left = (r.right + 10 + w < innerWidth ? r.right + 10 : Math.max(8, r.left - w - 10)) + "px";
+  UC.style.top = Math.max(8, Math.min(innerHeight - h - 8, r.top - 8)) + "px";
+}
+// ---- render ----
+function renderBoard() {
+  const rows = [];
+  for (let r = 0; r < ROWS; r++) rows.push(el("div", {class: "hexrow" + (r % 2 ? " odd" : "")}, Array.from({length: COLS}, (_, c) => slot("board", r * COLS + c))));
+  fill($("#board"), rows);
+  fill($("#bench"), S.bench.map((_, i) => slot("bench", i)));
+  fill($("#held"), S.held.length ? S.held.map((it, i) => el("button", {class: "btn", style: "padding:2px", title: `${it} (click to remove, drag onto a unit)`, draggable: "true",
+    ondragstart: e => setDrag(e, {type: "held", name: it, i}), onclick: () => { S.held.splice(i, 1); update(); }}, icon("items", it, "mini")))
+    : el("span", {class: "note"}, "Items you hold but haven't placed"));
+}
+function renderAugs() {
+  const slots = [0, 1, 2].map(k => {
+    const a = S.augments[k], info = a && CAT.augments.find(x => x.name === a);
+    return el("div", {}, el("div", {class: "aslot" + (a ? " filled" : ""), style: info ? `--tc:${TIERC[info.tier] || "var(--silver)"}` : null},
+      el("button", {class: "aslot", style: "border:0;width:100%;height:100%", title: a ? `${a}${info && info.summary ? " — " + info.summary : ""}` : "Add an augment",
+        "aria-label": a ? `augment ${a}, change` : "add an augment", onclick: () => openAug(k)}, a ? icon("augments", a) : el("span", {class: "plus"}, "+")),
+      a ? el("button", {class: "x", "aria-label": "remove " + a, onclick: () => { S.augments.splice(k, 1); update(); }}, "×") : null),
+      el("div", {class: "slotlab"}, ["2-1", "3-2", "4-2"][k]));
+  });
+  fill($("#augs"), slots);
+}
+function renderInspector() {
+  const u = S.sel && get(S.sel.z, S.sel.i);
+  if (!u) { fill($("#insp"), el("span", {class: "note"}, "Click a unit to set its stars (keys 1-3) or items; right-click, Delete or drag it off the board to remove it.")); return; }
+  const info = UNIT[u.unit];
+  fill($("#insp"), el("div", {class: "pf", style: `--cc:${COST(info.cost)}`}, icon("units", u.unit, "portrait")),
+    el("div", {}, el("div", {style: "font-weight:700"}, u.unit), el("div", {class: "note"}, `${info.cost}-cost · ${info.traits.join(", ")}${info.role ? " · " + info.role : ""}`)),
+    el("div", {class: "row"}, [1, 2, 3].map(s => el("button", {class: "btn" + (u.stars === s ? " on" : ""), onclick: () => { u.stars = s; update(); }}, "★".repeat(s)))),
+    el("div", {class: "row"}, u.items.length ? u.items.map((it, k) => el("span", {class: "chip"}, icon("items", it, "mini"), it,
+      el("button", {"aria-label": "remove " + it, onclick: () => { u.items.splice(k, 1); update(); }}, "×"))) : el("span", {class: "note"}, "No items: drop some on it")),
+    info.unlock ? el("span", {class: "note", style: "color:var(--c5)"}, "Unlock: " + info.unlock) : null,
+    el("span", {class: "spacer"}), el("button", {class: "btn", onclick: () => { put(S.sel.z, S.sel.i, null); S.sel = null; update(); }}, "Remove"));
+}
+function renderMusts() {
+  const xs = [...S.must.map(n => ["must", n]), ...S.excl.map(n => ["excl", n])];
+  fill($("#musts"), xs.length ? xs.map(([k, n]) => el("span", {class: "chip", style: k === "excl" ? "border-color:var(--bad)" : "border-color:var(--good)"},
+    el("span", {style: "width:18px;height:18px;border-radius:4px;overflow:hidden;display:inline-block"}, icon("units", n, "portrait")), (k === "must" ? "must " : "not ") + n,
+    el("button", {"aria-label": "remove condition", onclick: () => { S[k] = S[k].filter(x => x !== n); update(); }}, "×")))
+    : el("span", {class: "note"}, "Shift-click a champion to require it, alt-click to exclude it."));
+}
+function renderPool() {
+  hideUnitCard("pool:");                                 // its tile is about to be replaced (a board unit's card stays)
+  document.querySelectorAll(".costbtn").forEach(b => b.classList.toggle("on", +b.dataset.c === S.cost));
+  document.querySelectorAll("#itemFilters .btn").forEach(b => b.classList.toggle("on", b.dataset.k === S.itemKind));
+  const q = $("#q").value.trim().toLowerCase(), tr = $("#traitSel").value;
+  const list = CAT.units.filter(u => (!q || u.name.toLowerCase().includes(q) || u.traits.some(t => t.toLowerCase().includes(q))) && (!tr || u.traits.includes(tr)) && (!S.cost || u.cost === S.cost))
+    .sort((a, b) => a.cost - b.cost || a.name.localeCompare(b.name));
+  const groups = {};
+  list.forEach(u => (groups[u.cost] = groups[u.cost] || []).push(u));
+  fill($("#pool"), Object.entries(groups).map(([c, us]) => el("div", {class: "pgroup"}, el("span", {class: "pcost", style: `color:${COST(+c)}`}, c),
+    us.map(u => el("button", {class: "ptile", style: `--cc:${COST(u.cost)}`, draggable: "true", "aria-label": `${u.name}, ${u.cost}-cost`,
+      "aria-describedby": "ucard",
+      onmouseenter: e => showUnitCard(u, e.currentTarget), onmouseleave: () => hideUnitCard(), onfocus: e => showUnitCard(u, e.currentTarget), onblur: () => hideUnitCard("pool:"),
+      ondragstart: e => { hideUnitCard(); setDrag(e, {type: "unit", name: u.name}); },
+      onclick: e => {
+        if (e.shiftKey || e.altKey) { const k = e.shiftKey ? "must" : "excl"; S[k] = S[k].includes(u.name) ? S[k].filter(x => x !== u.name) : [...S[k], u.name]; return update(); }
+        addUnit(u.name);
+      }},
+      el("span", {class: "pf"}, icon("units", u.name, "portrait")), u.unlock ? el("span", {class: "lock", "aria-hidden": "true"}, "!") : null)))));
+  const iq = $("#iq").value.trim().toLowerCase();
+  const kinds = iq ? ["components", "completed", "artifacts", "radiants", "emblems"] : [S.itemKind];
+  const names = kinds.flatMap(k => CAT[k]).filter(n => !iq || n.toLowerCase().includes(iq));
+  fill($("#ipool"), names.map(n => el("button", {class: "itile", draggable: "true",
+    title: n + (CAT.recipes[n] ? ` = ${CAT.recipes[n].length === 1 ? CAT.recipes[n][0] + " ×2" : CAT.recipes[n].join(" + ")}` : "") + "\nDrag onto a unit, or click: gives it to the selected unit (else it's held)",
+    ondragstart: e => setDrag(e, {type: "item", name: n}),
+    onclick: () => { const t = S.sel && get(S.sel.z, S.sel.i); if (!t || !giveItem(t, n)) S.held.push(n); update(); }},
+    icon("items", n), el("span", {class: "pname"}, n))));
+}
+function update(full = true) {
+  save(); renderBoard(); renderTraits(); renderAugs(); renderInspector(); renderMusts(); renderPool();
+  if (full) find(); else if (LAST) drawLines(LAST);
+}
+// ---- lines ----
+let timer = null;
+const find = () => { clearTimeout(timer); timer = setTimeout(run, 150); };
+function units() {
+  const out = Object.values(S.board).map(u => ({unit: u.unit, stars: u.stars, items: u.items}));
+  S.bench.forEach(u => u && out.push({unit: u.unit, stars: u.stars, items: u.items, bench: true}));
+  return out;
+}
+async function run() {
+  const filters = {styles: S.styles, damage: S.damage || undefined, min_tier: S.minTier || undefined, sort: S.sort, must_units: S.must, exclude_units: S.excl};
+  const res = await fetch("/api/find", {method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({units: units(), items: S.held, augments: S.augments, filters, stage: S.stage || undefined, hp: S.hp ? +S.hp : undefined})})
+    .then(r => r.json()).catch(() => ({error: "the line finder server didn't answer (is tools/line_finder.py running?)"}));
+  if (res.error) { fill($("#summary"), "Error: " + res.error); return; }
+  LAST = res; drawStrength(res.your_board); drawLines(res);
+}
+function drawStrength(yb) {
+  if (yb.win_chance == null || !Object.keys(S.board).length) { fill($("#strength"), el("div", {class: "shead"}, el("h2", {}, "Board strength"), el("span", {class: "row"}, hpInput(), stagePicker())), el("div", {class: "note"}, "Put units on the board to see how they compare with a typical board at that level. With no board, HP needs a round picked.")); return; }
+  const w = yb.win_chance, label = w >= 0.6 ? "strong" : w >= 0.5 ? "above par" : w >= 0.4 ? "below par" : "weak";
+  const vs = yb.stage ? `a board from the lobby at ${yb.stage} (around level ${yb.typical_level.toFixed(1)}` + (yb.stage_auto ? `: the round closest to your ${yb.level} units)` : ")")
+    : `a typical ${yb.level}-unit board`;
+  fill($("#strength"), el("div", {class: "shead"}, el("h2", {}, "Board strength"), el("span", {class: "row"}, hpInput(), stagePicker())),
+    el("div", {class: "strength"}, el("span", {class: "big"}, pct(w)),
+      el("span", {class: "note"}, `chance to beat ${vs} · ${label}`),
+      el("div", {class: "meter"}, el("i", {style: `width:${Math.round(w * 100)}%`}))),
+    el("div", {class: "note", style: "margin-top:6px"}, yb.tempo_gold != null && (!yb.stage || yb.stage_auto) ? `≈ ${yb.tempo_gold >= 0 ? "+" : ""}${yb.tempo_gold} gold of streak and HP over stages 2-3` : ""),
+    strengthParts(yb.vs_typical));
+}
+// your HP at that round: lines are ranked by what that HP can survive into (engine/survival.py). For planning and
+// post-game review: Riot's rules don't allow suggestions from your live game state during a game.
+function hpInput() {
+  const inp = el("input", {type: "number", min: "1", max: "100", placeholder: "HP", "aria-label": "Your HP at that round", class: "hp",
+    title: "Your HP at the round on the right: lines that spike late need HP to get there. For planning and post-game review, not during a game (Riot's rules).",
+    onchange: e => { const v = Math.round(+e.target.value); S.hp = v >= 1 && v <= 100 ? String(v) : ""; save(); find(); }});
+  inp.value = S.hp || "";
+  return inp;
+}
+// compare with a typical board the same size, or with the lobby at a round (its comps at the level they have then)
+function stagePicker() {
+  const sel = el("select", {"aria-label": "Compare with", title: "Compare with the lobby at the round boards are usually your size, or at a round you pick",
+    onchange: e => { S.stage = e.target.value; save(); find(); }},
+    [["", "vs lobby at your size's round"], ...["2-1", "3-2", "4-1", "4-2", "4-5", "5-1", "5-5", "6-1"].map(r => [r, "vs lobby at " + r])]
+      .map(([v, t]) => el("option", {value: v}, t)));
+  sel.value = S.stage || "";
+  return sel;
+}
+// each part alone vs the typical board: points of win chance (items also as a count, since that's what to act on)
+function strengthParts(v) {
+  if (!v) return null;
+  const pts = x => `${x >= 0 ? "+" : "−"}${Math.abs(Math.round(x * 100))}`;
+  const chip = (label, x, extra) => el("span", {class: x >= 0.02 ? "up" : x <= -0.02 ? "down" : "",
+    title: `${label} alone, against a typical board this size: ${pts(x)} points of win chance`}, `${label} ${pts(x)}${extra || ""}`);
+  return el("div", {class: "parts"}, chip("Units & stars", v.parts.units, ""),
+    chip("Items", v.parts.items, ` · ${v.items} vs ~${Math.round(v.typical_items)} typical`), chip("Traits", v.parts.traits, ""));
+}
+const styleLabel = c => c.style.startsWith("lvl") ? "Reroll " + c.style.slice(4) : c.style;
+const tcls = t => "t-" + t.replace("+", "plus");
+function compCard(c) {
+  const carry = c.carries[0] || (c.endgame[0] || {}).unit;
+  const items = (c.endgame.find(b => b.unit === carry) || {}).items || [];
+  const open = S.open === c.name;
+  return el("button", {class: "ccard" + (open ? " open" : ""), style: `--cc:${COST(UNIT[carry] && UNIT[carry].cost)}`, "aria-expanded": open ? "true" : "false",
+    title: `${c.name}: avg place ${c.avg_place.toFixed(2)} → ${c.adjusted_place.toFixed(2)}${c.uses.length ? "\nUses " + c.uses.join(", ") : ""}`,
+    onclick: () => { S.open = open ? null : c.name; save(); drawLines(LAST); if (!open) setTimeout(() => $("#detail") && $("#detail").scrollIntoView({behavior: "smooth", block: "nearest"}), 0); }},
+    el("span", {class: "cart"}, carry ? icon("units", carry) : null), el("span", {class: "cstyle"}, styleLabel(c)),
+    (() => { const pv = c.pivot || {keep: [], opener: [], tempo: []}, n = pv.keep.length + pv.opener.length, all = n + pv.tempo.length;
+      return all ? el("span", {class: "cfit", style: n ? null : "background:#2a2f3d;color:var(--dim)",
+        title: `keeps ${n} of your ${all} units` + (pv.tempo.length ? `; ${pv.tempo.join(", ")} would be tempo` : "") + (c.odds >= 0.01 ? `\n${pct(c.odds)} of players holding your units end here` : "")}, `${n}/${all}`) : null; })(),
+    el("span", {class: "citems"}, items.map(i => icon("items", i, "mini"))),
+    el("span", {class: "cname"}, c.name), el("span", {class: "cplace"}, c.adjusted_place.toFixed(2)));
+}
+function tempoWhy(n) {
+  const typ = n.typical_hp != null ? `; its players have ~${Math.round(n.typical_hp)} HP then` : "";
+  const roll = !n.online ? "" : n.survive == null ? `, rolls down by now (${n.online})` : `, rolls down at ${n.online}: you reach it alive ${pct(n.survive)} of the time`;
+  return `${n.hp} HP at ${n.round}${roll}${typ}; top 4 ${n.top4 >= 0 ? "+" : "−"}${Math.abs(Math.round(n.top4 * 100))} points` +
+    (n.source === "chain" ? " (HP chain on MetaTFT's curves)" : " (its archetype's mean: no MetaTFT levelling)");
+}
+function sugCard(c) {
+  const carry = c.carries[0] || (c.endgame[0] || {}).unit, open = S.open === c.name;
+  const pv = c.pivot || {keep: [], opener: [], tempo: []};
+  return el("button", {class: "sug" + (open ? " open" : ""), style: `--cc:${COST(UNIT[carry] && UNIT[carry].cost)}`,
+    onclick: () => { S.open = open ? null : c.name; save(); drawLines(LAST); }},
+    el("span", {class: "art"}, carry ? icon("units", carry) : null),
+    el("span", {}, el("div", {}, el("span", {class: "tagt " + tcls(c.tier)}, c.tier), el("span", {class: "nm"}, c.name)),
+      el("div", {class: "note"}, `${styleLabel(c)} · expected ${c.adjusted_place.toFixed(2)}` + (c.pivot_cost && LAST && LAST.your_board.level ? ` · ~${c.pivot_cost.gold}g to finish` : "")
+        + ((c.availability || []).some(a => a.status === "ready") ? ` · ${c.availability.filter(a => a.status === "ready").map(a => a.unit).join(", ")} unlock ready` : "")
+        + (c.reachable ? "" : " · stretch: few boards like yours end here")
+        + ((c.anchors || []).length ? ` · builds around your ${c.anchors.map(a => `${a.stars}★ ${a.unit}`).join(", ")}` : "")
+        + (c.tempo_note && c.tempo_note.online ? (c.tempo_note.survive == null ? ` · rolled by ${c.tempo_note.online}` : ` · rolls ${c.tempo_note.online}: you get there ${pct(c.tempo_note.survive)}`) : "")),
+      el("div", {class: "row", style: "margin-top:4px"},
+        [...pv.keep, ...pv.opener].map(u => el("span", {title: `${u}: keep`}, uchip({unit: u}, [u]))),
+        pv.tempo.length ? el("span", {class: "note"}, "tempo: " + pv.tempo.join(", ")) : null),
+      (c.variants || []).length ? el("div", {class: "note", style: "margin-top:4px"}, "same units, other carries: " + c.variants.join(", ")) : null));
+}
+function drawLines(r) {
+  const real = r.comps.filter(c => c.reachable).length;
+  fill($("#summary"), el("b", {}, r.comps.length), " comps", real < r.comps.length ? [", ", el("b", {}, real), " realistic for what you hold"] : null,
+    ". Expected average place: MetaTFT's, moved by what you hold.",
+    [...r.unknown_items, ...(r.unknown_units || [])].length ? ` Not recognised: ${[...r.unknown_items, ...(r.unknown_units || [])].join(", ")}` : null);
+  const out = [];
+  const byName = Object.fromEntries(r.comps.map(c => [c.name, c]));
+  const sug = (r.suggested || []).map(n => byName[n]).filter(Boolean);
+  let shown = false;
+  if (sug.length && (Object.keys(S.board).length || S.bench.some(Boolean) || S.held.length || S.augments.length)) {
+    out.push(el("h2", {}, "Suggested lines for your board"), el("div", {class: "suggest"}, sug.map(sugCard)));
+    const open = sug.find(c => c.name === S.open);
+    if (open) { out.push(detail(open)); shown = true; }
+    out.push(el("h2", {style: "margin-top:4px"}, "All comps"));
+  }
+  const weakTiers = ["C", "D"];
+  const order = S.sort === "tier" ? ["OP", "S+", "S", "A", "B", "C", "D"] : [null];
+  let hidden = 0;
+  for (const t of order) {
+    const cs = t ? r.comps.filter(c => c.tier === t) : r.comps;
+    if (!cs.length) continue;
+    if (t && weakTiers.includes(t) && !S.showWeak) { hidden += cs.length; continue; }
+    out.push(el("div", {class: "tierrow"}, t ? el("div", {class: "tb " + tcls(t)}, t) : el("div", {}), el("div", {class: "cards"}, cs.map(compCard))));
+    const sel = !shown && cs.find(c => c.name === S.open);
+    if (sel) { out.push(detail(sel)); shown = true; }
+  }
+  if (S.sort === "tier") out.push(el("div", {class: "weak"}, el("button", {class: "btn", onclick: () => { S.showWeak = !S.showWeak; save(); drawLines(LAST); }},
+    S.showWeak ? "Hide the C and D tiers" : `Show ${hidden} weaker comps (C and D tiers)`)));
+  fill($("#results"), out.length ? out : el("p", {class: "note"}, "No comp passes these conditions."));
+}
+function uchip(u, have, big) {
+  const info = UNIT[u.unit] || {};
+  return el("span", {class: "uchip" + (have.includes(u.unit) ? " have" : "") + (big ? " big3" : ""), style: `--cc:${COST(info.cost)}`,
+    title: `${u.unit}${u.stars > 1 ? " " + u.stars + "★" : ""}${u.items && u.items.length ? " · " + u.items.join(", ") : ""}${info.unlock ? "\nUnlock: " + info.unlock : ""}${have.includes(u.unit) ? "\nYou have it" : ""}`},
+    icon("units", u.unit, "portrait"), u.stars > 1 ? el("span", {class: "ustars"}, "★".repeat(u.stars)) : null,
+    u.items && u.items.length ? el("span", {class: "uits"}, u.items.map(i => icon("items", i, "micro"))) : null);
+}
+const brow = (label, us, have, note, big) => el("div", {class: "brow"}, el("span", {class: "blabel"}, label), el("span", {class: "bunits"}, us.map(u => uchip(u, have, big))), note ? el("span", {class: "bnote"}, note) : null);
+function hexboard(units, have) {
+  const at = {}; units.forEach(u => at[u.hex] = u);
+  return el("div", {class: "board mboard"}, Array.from({length: ROWS}, (_, r) => el("div", {class: "hexrow" + (r % 2 ? " odd" : "")},
+    Array.from({length: COLS}, (_, c) => { const u = at[r * COLS + c];
+      return el("div", {class: "hex" + (u ? " filled" : ""), style: u ? `--cc:${COST(UNIT[u.unit] && UNIT[u.unit].cost)}` : null,
+        title: u ? `${u.unit}${u.stars > 1 ? " " + u.stars + "★" : ""}${u.items.length ? " · " + u.items.join(", ") : ""}${have.includes(u.unit) ? " · you have it" : ""}${UNIT[u.unit] && UNIT[u.unit].unlock ? "\nUnlock: " + UNIT[u.unit].unlock : ""}` : null},
+        u ? [el("div", {class: "face", style: have.includes(u.unit) ? "box-shadow:inset 0 0 0 3px var(--good)" : null}, icon("units", u.unit, "portrait")),
+          el("div", {class: "stars s" + u.stars}, "★".repeat(u.stars)), el("div", {class: "its"}, u.items.map(i => icon("items", i, "micro")))] : null); }))));
+}
+const GAINLABEL = {augments: "Augments", artifacts: "Artifacts & radiants", items: "Items", tempo: "Your HP", conditions: "Conditions", emblems: "Emblems"};
+function detail(c) {
+  const have = c.uses;
+  const st = c.stats || {};
+  const steps = Object.entries(c.gains).filter(([, v]) => v).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]))
+    .map(([k, v]) => el("span", {class: "step"}, GAINLABEL[k] || k, el("b", {class: v > 0 ? "gain" : "loss"}, places(v))));
+  const reasons = [
+    ...c.augment_notes.map(n => [icon("augments", n.augment, "mini"), n.places, `${n.augment}: ${n.why}${n.expert_set18 ? ` (expert ${n.expert_set18}, Set 18 list)` : ""}`]),
+    ...c.item_notes.filter(n => n.places).map(n => [icon("items", n.item, "mini"), n.places, `${n.item}${n.holder ? " on " + n.holder : ""}: ${n.why}`]),
+    ...c.emblem_notes.filter(n => n.places).map(n => [icon("items", n.item, "mini"), n.places, `${n.item}: ${n.why}`]),
+    ...(c.tempo_note ? [[el("span", {class: "mini fb ic"}, "♥"), c.gains.tempo, tempoWhy(c.tempo_note)]] : []),
+    ...c.conditions_met.map(n => [el("span", {class: "mini fb ic"}, "if"), n.places, `${n.why} [${n.source}]`])]
+    .sort((a, b) => Math.abs(b[1]) - Math.abs(a[1]));
+  const why = el("div", {class: "why"},
+    el("div", {class: "whybig"}, el("span", {class: "tagt " + tcls(c.tier), style: "font-size:15px"}, c.tier), el("div", {class: "num"}, c.adjusted_place.toFixed(2)), el("div", {class: "note"}, "expected avg place")),
+    el("div", {}, el("h2", {}, "Why this tier"),
+      el("div", {class: "fall"}, el("span", {class: "step"}, "MetaTFT average", el("b", {}, c.avg_place.toFixed(2))), steps.length ? "→" : null, steps, steps.length ? ["→", el("span", {class: "step"}, "You", el("b", {}, c.adjusted_place.toFixed(2)))] : null),
+      el("div", {class: "note", style: "margin-top:6px"}, steps.length ? "Each step is what you hold moving this comp's expected place (− = better)." : "Nothing you hold moves this comp: it sits at MetaTFT's average. Add augments, items and units.")),
+    reasons.length ? el("div", {class: "reasons"}, reasons.map(([ic, v, w]) => el("div", {class: "reason"}, ic, el("span", {class: "v " + (v > 0 ? "gain" : v < 0 ? "loss" : "")}, places(v)), el("span", {class: "note"}, w)))) : null);
+  // stage tabs
+  const stagesBy = c.stages || [];
+  const cur = stagesBy.find(x => x.key === S.lineTab[c.name]) || stagesBy.find(x => x.key === "l8") || stagesBy[stagesBy.length - 1];
+  const groups = [];
+  for (const sg of stagesBy) { let g = groups.find(x => x.name === sg.group); if (!g) groups.push(g = {name: sg.group, items: []}); g.items.push(sg); }
+  const stageEl = el("div", {},
+    el("div", {class: "stabs", role: "tablist"}, groups.map(g => el("div", {class: "sgroup"}, el("span", {class: "glabel"}, g.name),
+      el("div", {class: "row"}, g.items.map(sg => el("button", {class: "stab" + (sg === cur ? " on" : ""), role: "tab", "aria-selected": sg === cur ? "true" : "false",
+        onclick: () => { S.lineTab = Object.assign({}, S.lineTab, {[c.name]: sg.key}); save(); drawLines(LAST); }}, sg.label)))))),
+    cur ? el("div", {class: "stagebody"}, hexboard(cur.units, have),
+      el("div", {}, el("div", {style: "font-weight:700"}, `${cur.group} · ${cur.label}`), el("p", {class: "note"}, cur.note),
+        cur.units.some(u => have.includes(u.unit)) ? el("p", {class: "note"}, "Green rings: units you have.") : null,
+        (cur.alternatives || []).length ? [el("h2", {style: "margin-top:8px"}, "Other common boards at this level"),
+          cur.alternatives.map(a => el("div", {class: "irow"}, el("span", {class: "bunits"}, a.units.map(u => uchip({unit: u}, have))), el("span", {class: "bnote"}, "avg " + a.avg_place.toFixed(2))))] : null)) : null);
+  // below the tabs
+  const prog = c.progression || {levelling: [], carousel: []};
+  const maxR = Math.max(1, ...prog.levelling.map(x => x.rerolls || 0));
+  const progEl = el("div", {class: "col"}, el("h2", {}, "Progression"),
+    el("div", {class: "tl"}, prog.levelling.map(x => el("div", {class: "tlstep", title: x.rerolls != null ? `${x.rerolls} rerolls spent at level ${x.level} on average` : null},
+      el("b", {}, `Lvl ${x.level}`), x.stage || "start", x.rerolls != null ? el("div", {class: "rb"}, el("i", {style: `width:${Math.round(100 * x.rerolls / maxR)}%`})) : null))),
+    prog.levelling.some(x => x.rerolls) ? el("p", {class: "note"}, "Bars: rerolls spent at each level (MetaTFT); the tallest is where this comp rolls down.") : null,
+    prog.carousel.length ? [el("h2", {style: "margin-top:10px"}, "Carousel priority"), el("div", {class: "row"}, prog.carousel.map(x => el("span", {class: "chip", style: "padding-right:8px"}, icon("items", x.item, "mini"), "×" + x.priority)))] : null,
+    el("p", {class: "note", style: "margin-top:8px"}, `Top 4: ${pct(st.top4)} · 1st: ${pct(st.win)}` + (st.contested != null ? ` · 3+ players in ${pct(st.contested)} of its games` : "") + ` · pick ${c.pick_rate}`));
+  const itemEl = el("div", {class: "col"}, el("h2", {}, "Optimal itemization"),
+    c.endgame.filter(b => b.items.length).map(b => el("div", {class: "irow"}, uchip(b, have), el("span", {class: "row"}, b.items.map(i => icon("items", i, "mini"))),
+      el("span", {class: "note"}, b.top_items.slice(0, 3).map(t => `${t.item} ${t.place_change.toFixed(2)}`).join(" · ")))),
+    (c.comp_items || []).length ? [el("h2", {style: "margin-top:10px"}, "Items in this comp (avg place, play rate)"),
+      el("div", {class: "row"}, c.comp_items.map(x => el("span", {class: "chip", style: "padding-right:8px", title: `${x.item}: avg place ${x.avg_place} in this comp (${x.vs_comp >= 0 ? "+" : ""}${x.vs_comp} vs its average), on ${pct(x.play_rate)} of its boards`},
+        icon("items", x.item, "mini"), el("span", {class: x.vs_comp < 0 ? "gain" : "loss"}, x.avg_place.toFixed(2)))))] : null,
+    c.artifact_holders.length ? [el("h2", {style: "margin-top:10px"}, "Best artifact holders"),
+      c.artifact_holders.map(a => el("div", {class: "irow"}, icon("items", a.artifact, "mini"), uchip({unit: a.holder}, have), el("span", {class: "note"}, `${a.artifact} on ${a.holder}`), el("span", {class: "gain", style: "margin-left:auto"}, places(-a.places))))] : null);
+  const condEl = el("div", {class: "col"}, el("h2", {}, "Crucial conditions"),
+    (c.best_augments || []).length ? [el("div", {class: "note"}, "Augments this comp wants most (model):"),
+      c.best_augments.map(a => el("div", {class: "irow", title: a.why}, icon("augments", a.augment, "mini"), el("span", {style: "font-size:12px"}, a.augment), el("span", {class: "note"}, a.kind), el("span", {class: "gain", style: "margin-left:auto"}, places(a.places))))] : null,
+    c.unlocks.length ? [el("h2", {style: "margin-top:10px"}, "Unlocks"), c.unlocks.map(u => { const a = (c.unlock_arrival || []).find(x => x.unit === u.unit);
+      return el("div", {class: "irow"}, uchip({unit: u.unit}, have), el("span", {class: "note"}, u.condition + (u.min_level ? ` (level ${u.min_level}+)` : "")
+        + (a && a.level ? ` · on most of its MetaTFT boards from level ${a.level}` : ""))); })] : null,
+    (c.flex || []).length ? [el("h2", {style: "margin-top:10px"}, "+1 / flex units (avg place in this comp)"),
+      el("div", {class: "row"}, c.flex.map(f => el("span", {class: "chip", style: "padding-right:8px", title: `${f.unit}: avg place ${f.avg_place} when played in this comp, on ${pct(f.play_rate)} of its boards`}, uchip({unit: f.unit}, have), f.avg_place.toFixed(2))))]
+      : (c.plus_one.length ? [el("h2", {style: "margin-top:10px"}, "+1 / flex"), el("div", {class: "row"}, c.plus_one.map(u => uchip({unit: u}, have)))] : null));
+  return el("div", {class: "detail", id: "detail"},
+    el("div", {class: "dhead"}, el("span", {class: "name"}, c.name), el("span", {class: "note"}, `${styleLabel(c)} · MetaTFT ${c.metatft_tier} · expected ${st.lp != null ? (st.lp >= 0 ? "+" : "") + st.lp + " LP" : "–"} · top 4 ${pct(st.top4)} · uses ${pct(c.fit)} of your board` + (c.odds >= 0.01 ? ` · ${pct(c.odds)} of players with your units end here` : ""))),
+    why,
+    (c.pivot && (c.pivot.keep.length || c.pivot.opener.length || c.pivot.tempo.length)) ? el("div", {class: "pivot"},
+      c.pivot.keep.length ? el("div", {class: "pv"}, el("span", {class: "note"}, "Keep"), c.pivot.keep.map(u => uchip({unit: u}, [u]))) : null,
+      c.pivot.opener.length ? el("div", {class: "pv"}, el("span", {class: "note"}, "Fits its openers"), c.pivot.opener.map(u => uchip({unit: u}, [u]))) : null,
+      c.pivot.tempo.length ? el("div", {class: "pv"}, el("span", {class: "note"}, "Tempo now, sell on the way"), c.pivot.tempo.map(u => uchip({unit: u}, []))) : null,
+      c.pivot_cost && c.pivot_cost.buy.length ? el("div", {class: "pv"}, el("span", {class: "note"}, `To finish: about ${c.pivot_cost.gold} gold of units`),
+        c.pivot_cost.buy.map(x => uchip({unit: x.unit, stars: x.stars}, []))) : null,
+      (c.availability || []).filter(a => a.status !== "have").length ? el("div", {class: "pv"}, el("span", {class: "note"}, "Unlocks"),
+        c.availability.filter(a => a.status !== "have").map(a => el("span", {class: "avail " + a.status,
+          title: a.detail + (a.min_level ? ` (from level ${a.min_level})` : "")},
+          `${a.unit}: ${a.status === "ready" ? "ready" : a.status === "progress" ? `${a.value}/${a.target}` : a.status === "closed" ? "missed" : "in-game"}`))) : null,
+      c.source === "lolchess" ? el("div", {class: "pv"}, el("span", {class: "note"}, c.parent ? `lolchess variant of ${c.parent}` : "from lolchess (rescaled)")) : null) : null,
+    stageEl, el("div", {class: "cols3"}, progEl, itemEl, condEl),
+    (c.playbook || []).length ? el("div", {class: "col", style: "margin-top:14px"},
+      el("h2", {}, `Pro playbook for this line (${styleLabel(c)})`),
+      el("div", {class: "rules"}, c.playbook.map(r => el("div", {class: "rule" + (r.own ? " own" : "")},
+        el("div", {class: "rtitle"}, r.title, r.conflict ? el("span", {class: "warn", title: "Sources disagree: " + r.conflict}, " sources differ") : null),
+        el("div", {class: "note"}, r.do),
+        r.numbers.length ? el("div", {class: "row", style: "margin-top:4px"}, r.numbers.map(n => el("span", {class: "chip", style: "padding-right:8px"}, n))) : null,
+        el("div", {class: "note", style: "margin-top:4px"}, `${r.area} · ${r.confidence || "?"} confidence${r.source ? " · " + r.source : ""}`)))),
+      el("p", {class: "note"}, "From docs/knowledge/pro_playbook.md: dated pro and guide sources, this archetype's rules first. A plan to read before the game, not advice during it.")) : null);
+}
+// ---- augment picker ----
+let augSlot = 0, aTier = "";
+function openAug(k) { augSlot = k; $("#aq").value = ""; drawAugs(); $("#augDlg").showModal(); $("#aq").focus(); }
+function drawAugs() {
+  document.querySelectorAll("#atiers .btn").forEach(b => b.classList.toggle("on", b.dataset.v === aTier));
+  const q = $("#aq").value.trim().toLowerCase(), cat = $("#acat").value;
+  const list = CAT.augments.filter(a => (!q || a.name.toLowerCase().includes(q) || (a.summary || "").toLowerCase().includes(q)) && (!aTier || a.tier === aTier) && (!cat || a.category === cat));
+  fill($("#agrid"), list.map(a => el("button", {class: "atile", style: `--tc:${TIERC[a.tier] || "var(--silver)"}`, title: `${a.name} (${[a.tier, a.category, a.status].filter(Boolean).join(", ")})\n${a.summary || ""}${a.expert ? "\nExpert tier " + a.expert + " (Set 18 list)" : ""}`,
+    onclick: () => { S.augments[augSlot] = a.name; S.augments = S.augments.filter(Boolean); $("#augDlg").close(); update(); }},
+    icon("augments", a.name), el("span", {}, el("div", {class: "an"}, a.name), el("div", {class: "as"}, a.summary || a.category || "")))));
+}
+// ---- boot ----
+fetch("/api/catalog").then(r => r.json()).then(c => {
+  CAT = c;
+  c.units.forEach(u => UNIT[u.name] = u); c.trait_info.forEach(t => TRAIT[t.name] = t);
+  for (const k of ["components", "completed", "artifacts", "radiants", "emblems"]) for (const n of c[k]) KIND[n] = k;
+  for (const [made, parts] of Object.entries(c.recipes)) COMBINE[(parts.length === 1 ? [parts[0], parts[0]] : parts).slice().sort().join("|")] = made;
+  fill($("#traitSel"), el("option", {value: ""}, "All traits"), c.traits.slice().sort().map(t => el("option", {value: t}, t)));
+  fill($("#itemFilters"), [["components", "Components"], ["completed", "Completed"], ["artifacts", "Artifacts"], ["radiants", "Radiants"], ["emblems", "Emblems"]]
+    .map(([k, l]) => el("button", {class: "btn", "data-k": k, onclick: () => { S.itemKind = k; update(false); }}, l)));
+  fill($("#acat"), el("option", {value: ""}, "All kinds"), [...new Set(c.augments.map(a => a.category).filter(Boolean))].sort().map(k => el("option", {value: k}, k)));
+  // drag a unit off the board onto the pool to remove it
+  for (const z of ["#poolwrap", ".itempanel"]) target($(z), d => { if (d && d.type === "move") { put(d.z, d.i, null); S.sel = null; update(); } });
+  target($("#held"), d => { if (d && d.type === "item") { S.held.push(d.name); update(); } });
+  document.querySelectorAll(".costbtn").forEach(b => b.addEventListener("click", () => { S.cost = S.cost === +b.dataset.c ? 0 : +b.dataset.c; update(false); }));
+  $("#q").addEventListener("input", () => renderPool()); $("#iq").addEventListener("input", () => renderPool()); $("#traitSel").addEventListener("change", () => renderPool());
+  document.querySelectorAll("#styles .btn").forEach(b => { b.classList.toggle("on", S.styles.includes(b.dataset.v));
+    b.addEventListener("click", () => { S.styles = S.styles.includes(b.dataset.v) ? S.styles.filter(x => x !== b.dataset.v) : [...S.styles, b.dataset.v]; b.classList.toggle("on"); update(); }); });
+  for (const [id, key] of [["#damage", "damage"], ["#minTier", "minTier"], ["#sort", "sort"]]) { $(id).value = S[key]; $(id).addEventListener("change", () => { S[key] = $(id).value; update(); }); }
+  // clear: a blank state, then reload so every control (menus, style buttons) shows it, not just the board
+  $("#clear").addEventListener("click", () => { S = Object.assign(blank(), {tab: S.tab, itemKind: S.itemKind}); save(); location.reload(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { closeTrait(); hideUnitCard(); } });
+  document.addEventListener("click", e => { if (POP && !POP.node.contains(e.target)) closeTrait(); });
+  window.addEventListener("scroll", () => { hideUnitCard(); if (POP) drawTrait(); }, {passive: true});
+  // keys act on the selected unit wherever focus is (a click re-renders the board, so the clicked hex loses focus);
+  // not while typing in a search box or choosing in a menu
+  document.addEventListener("keydown", e => {
+    const u = S.sel && get(S.sel.z, S.sel.i);
+    if (!u || e.ctrlKey || e.metaKey || e.altKey || /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return;
+    if (/^[123]$/.test(e.key)) { u.stars = +e.key; update(); }
+    else if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); put(S.sel.z, S.sel.i, null); S.sel = null; update(); }
+  });
+  $("#aq").addEventListener("input", drawAugs); $("#acat").addEventListener("change", drawAugs); $("#aclose").addEventListener("click", () => $("#augDlg").close());
+  document.querySelectorAll("#atiers .btn").forEach(b => b.addEventListener("click", () => { aTier = aTier === b.dataset.v ? "" : b.dataset.v; drawAugs(); }));
+  update();
+});
+</script></body></html>

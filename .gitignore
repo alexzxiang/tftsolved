@@ -1,0 +1,41 @@
+# Public repo: the code, the design docs and the case-study site. What stays on this machine:
+#   - third-party data: MetaTFT and lolchess (their terms: private use only), tftips / Blitz-derived catalogs
+#   - Riot's art and match data, recordings and game screenshots (player names)
+#   - research notes quoting third-party guides, and every model fitted partly on the data above
+#   - keys and local tool state
+# Allowlist for data/: only the game rules and the Set 19 roster (game facts).
+/data/*
+!/data/constants.json
+!/data/manual/
+/data/manual/*
+!/data/manual/TFTSet19.json
+
+/recordings/
+/reports/
+/research_notes/
+/docs/knowledge/
+/tests/fixtures/
+
+# third-party content readers and the playbook (paraphrased third-party guides)
+/tools/augment_archive.js
+/tools/expert_letter_check.js
+/tools/import_lolchess.py
+/tools/build_playbook.py
+/tools/playbook_review.py
+/tests/test_playbook.py
+
+# build outputs, local state, secrets
+/capture/tftcap
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+*.pem
+.vercel/
+.claude/
+*.mp4
+*.mov
+*.mlmodel
+.impeccable/
+.playwright-mcp/

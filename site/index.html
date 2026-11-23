@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TFTSolved: a Teamfight Tactics line finder built on measured data</title>
+<meta name="description" content="TFTSolved ranks the lines a Teamfight Tactics board can reach, with every number traced to data: a Lanchester fight model, a Markov-chain survival model, conformal prediction and measured item and augment effects.">
+<meta name="theme-color" content="#0b0d12">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TFTSolved">
+<meta property="og:description" content="A Teamfight Tactics line finder that trusts only what it can measure.">
+<meta property="og:url" content="https://tftsolved.vercel.app/">
+<meta property="og:image" content="https://tftsolved.vercel.app/img/app.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 30'%3E%3Cpath d='M13 0l13 7.5v15L13 30 0 22.5v-15z' fill='%23e8b83f'/%3E%3Cpath d='M8 10h10M13 10v11' stroke='%230b0d12' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="mark" href="/" aria-label="TFTSolved home">
+    <svg viewBox="0 0 26 30" aria-hidden="true"><path d="M13 0l13 7.5v15L13 30 0 22.5v-15z" fill="#e8b83f"/><path d="M8 10h10M13 10v11" stroke="#0b0d12" stroke-width="2.6" stroke-linecap="round"/></svg>
+    TFTSolved
+  </a>
+  <nav aria-label="Sections">
+    <a href="#decides">How it decides</a>
+    <a href="#methods">Methods</a>
+    <a href="#overruled">What the data overruled</a>
+    <a href="https://github.com/alexzxiang/tftsolved">Code</a>
+  </nav>
+</header>
+
+<main id="main">
+  <div class="hero">
+    <h1>A Teamfight Tactics line finder that trusts only <em>what it can measure</em>.</h1>
+    <p class="lede">TFTSolved takes the board, items and augments you hold and ranks the lines you can reach in Set 19: the placement each line can expect, the items it wants, when it comes online, and why it ranks where it does.</p>
+    <div class="actions">
+      <a class="btn primary" href="#methods">Read the methods</a>
+      <a class="btn" href="https://github.com/alexzxiang/tftsolved">View the code on GitHub</a>
+    </div>
+    <figure class="shot-hero">
+      <img src="/img/app.png" width="1440" height="900" alt="The TFTSolved team builder: a K/DA board of eight two-star champions on a hex grid, with augments, items and a board-strength panel reading 58 percent against the lobby at round 4-5, the champion pool sorted by cost, and the active traits.">
+      <figcaption>The team builder at round 4-5 with 62 HP: eight two-star K/DA champions, their items and augments, and the board's chance to beat the lobby at that round.</figcaption>
+    </figure>
+  </div>
+
+  <section aria-labelledby="why">
+    <h2 id="why" class="vh">Why it exists</h2>
+    <div class="prose">
+      <p>The first version of my board-strength model said a three-star unit was barely stronger than a one-star one: 41 percent, then 43, then 46.</p>
+      <p>Nothing in the code looked broken. Each weight was plausible on its own, and the tests passed, because I had never asked where any single number came from. I had mistaken a model that sounded confident for one that was right. If I wanted the tool to earn trust, every number in it needed a source.</p>
+      <p>That became the rule TFTSolved is built around. A provenance audit runs with the test suite and fails if any number that moves a prediction is a guess rather than a measurement. The rest of this page is what the rule produced: four models, each checked against real games, and a short list of beliefs the data took away from me.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="shows">
+    <h2 id="shows">What it shows you</h2>
+    <div class="gallery">
+      <figure class="wide shot">
+        <img src="/img/lines.png" width="1440" height="727" loading="lazy" alt="Two suggested lines, K/DA Leona and K/DA Evelynn, each with its expected placement. Below, K/DA Leona's breakdown: MetaTFT average 3.99, then your HP minus 0.51, items minus 0.50 and augments plus 0.19, for an expected 3.18, with a reason and its data source for every step.">
+        <figcaption><strong>Ask why.</strong> Each line starts from its meta average and moves, step by step, by what you hold: your HP at that round, your items and your augments. Every step names the data behind it.</figcaption>
+      </figure>
+      <div class="pair">
+        <img class="shot" src="/img/trait-mixed.png" width="331" height="296" loading="lazy" alt="The Bodyguard trait panel: its effect at 2, 4 and 6 units, and its seven champions, with the two on the board lit and the other five greyed out.">
+        <div><h3>Click a trait</h3><p>What each breakpoint does, and every champion who carries the trait, with the ones you have lit.</p></div>
+      </div>
+      <div class="pair">
+        <img class="shot" src="/img/card.png" width="400" height="368" loading="lazy" alt="The champion card for a two-star Kai'Sa: K/DA and Trickshot, attack marksman, ranged five hexes, 1,170 HP at two stars, holding Guinsoo's Rageblade, Last Whisper and Infinity Edge, with her ability.">
+        <div><h3>Hover a champion</h3><p>Role, range, HP at its star level, the items it holds and its ability, on the board or in the selector.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="decides" aria-labelledby="decides-h">
+    <h2 id="decides-h">How it decides</h2>
+    <p class="section-intro">Four questions, answered in order for every one of the 57 comps it knows.</p>
+    <ol class="steps">
+      <li>
+        <h3>Where can this board go?</h3>
+        <p>A naive Bayes model reads your units against every comp's openers and final boards. Split-conformal prediction turns its odds into a short realistic set, so a full board isn't told that every comp is open.</p>
+        <p class="evidence">Keeps the true line 88.7% of the time at a 90% target, on 2,000 held-out boards.</p>
+      </li>
+      <li>
+        <h3>What is each line worth to you?</h3>
+        <p>Items, artifacts, emblems and augments move a line by effects measured on 22,784 Set 18 boards and 40,344 Master+ games, each with a confidence interval.</p>
+        <p class="evidence">An artifact on its usual holder is worth 0.26 places more than a normal item; on the wrong one, 0.11 less.</p>
+      </li>
+      <li>
+        <h3>How strong is the board?</h3>
+        <p>A Lanchester model treats a fight as total effective HP times total damage. Its weights are fitted on the last fight of 2,807 real lobbies, first place against second.</p>
+        <p class="evidence">Log-likelihood −0.609 per fight, against −0.665 on the label it replaced.</p>
+      </li>
+      <li>
+        <h3>Can you survive until it pays?</h3>
+        <p>An absorbing Markov chain over round and HP, solved exactly, follows each line's power curve to the round it comes online and asks how often your HP gets there.</p>
+        <p class="evidence">Game-to-game spread fitted to 19,647 Set 18 knockouts; every comp anchored to its meta average within 0.023 places.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section id="methods" aria-labelledby="methods-h">
+    <h2 id="methods-h">Methods</h2>
+    <dl class="spec">
+      <div class="row"><dt>Lanchester fight model, logistic regression</dt><dd>Board strength and the chance to win a round</dd><dd class="evidence">Damage exponent, scale and unit, item and trait weights by maximum likelihood on 2,807 final fights</dd></div>
+      <div class="row"><dt>Absorbing Markov chain with a per-game random effect</dt><dd>What your HP can survive into, integrated by Gauss–Hermite quadrature</dd><dd class="evidence">σ = 1.25 by multinomial maximum likelihood on 19,647 knockouts; anchors solved as a fixed point</dd></div>
+      <div class="row"><dt>Naive Bayes with split-conformal prediction</dt><dd>Which lines are realistic for the units you hold</dd><dd class="evidence">90% and 99% sets; 88.7% and 99.1% coverage on held-out boards</dd></div>
+      <div class="row"><dt>Plackett–Luce ranking with cross-set transfer</dt><dd>Unit, trait and item weights for a set with no ranked games yet</dd><dd class="evidence">Set 18 weights carried over; ridge fine-tune chosen by 5-fold cross-validation over whole comps</dd></div>
+      <div class="row"><dt>Least squares with a lobby-level bootstrap</dt><dd>What items, artifacts, radiants and emblems are worth</dd><dd class="evidence">22,784 boards; a 95% interval on every effect</dd></div>
+      <div class="row"><dt>Empirical Bayes shrinkage</dt><dd>Comps seen on only one stats site</dd><dd class="evidence">Keeps 61% of a comp's gap from the mean, set by measured variance</dd></div>
+      <div class="row"><dt>Provenance audit</dt><dd>Every number that moves a prediction is measured or derived from a measurement</dd><dd class="evidence">Enforced by the test suite</dd></div>
+    </dl>
+  </section>
+
+  <section id="overruled" aria-labelledby="overruled-h">
+    <h2 id="overruled-h">What the data overruled</h2>
+    <p class="section-intro">Some of my instincts as a player survived contact with the data. These did not.</p>
+    <ul class="overruled">
+      <li><p class="was"><span class="vh">I assumed: </span>Best-in-slot items matter most on the main carry.</p><p class="is"><span class="vh">The data: </span>Per item, they mattered no more there than on a second carry. Main carries almost always end with good items; second carries get the leftovers.</p></li>
+      <li><p class="was"><span class="vh">I assumed: </span>Players knocked out in the same round are a fair comparison of their boards.</p><p class="is"><span class="vh">The data: </span>Their order follows HP, not a fight between them, and that label halved every weight. The last fight of a lobby, first place against second, is the clean one.</p></li>
+      <li><p class="was"><span class="vh">I assumed: </span>A fine-tune that improves held-out error is safe to apply.</p><p class="is"><span class="vh">The data: </span>It divided by a nearly flat slope and inflated trait weights tenfold. A unit whose boards averaged 7.4th was scored as strongly good.</p></li>
+      <li><p class="was"><span class="vh">I assumed: </span>Placement data would show that low HP punishes fast-9 lines.</p><p class="is"><span class="vh">The data: </span>Players choose fast 9 when they're healthy, so the histograms can't show it. The answer had to come from a model of the mechanism.</p></li>
+    </ul>
+    <p class="maxim">A number I can't trace is just a confident guess.</p>
+  </section>
+
+  <section aria-labelledby="checks-h">
+    <h2 id="checks-h">Checks it passes</h2>
+    <table class="checks">
+      <thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead>
+      <tbody>
+        <tr><td>A late board's own comp is among the suggestions</td><td>149 of 149</td></tr>
+        <tr><td>An opener's own comp is among the suggestions</td><td>83%</td></tr>
+        <tr><td>An itemised carry among four random units leads to its comp</td><td>150 of 150</td></tr>
+        <tr><td>Every artifact alone suggests only comps that play its usual holders</td><td>32 of 32</td></tr>
+        <tr><td>Every emblem alone suggests only comps that run its trait</td><td>26 of 26</td></tr>
+        <tr><td>Test files, including the provenance audit and pro-intuition scenarios</td><td>28</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="rules-h">
+    <h2 id="rules-h">Built within the rules</h2>
+    <div class="prose">
+      <p>Riot's policies forbid tools that make suggestions from a player's live game state, so TFTSolved takes manual input and is meant for planning and post-game review.</p>
+      <p>Its Set 19 meta statistics come from MetaTFT and lolchess, whose terms keep that data private, so it stays on my machine; neither this page nor the public code contains it. The next version runs on its own data: a Riot API crawl of ranked Set 19 games once the set goes live.</p>
+    </div>
+    <p class="close">A lone three-star Ziggs now beats a typical single unit 94 percent of the time, and every point of that number has a source.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="links">
+    <a href="https://github.com/alexzxiang/tftsolved">Source on GitHub</a>
+    <span>Python standard library, vanilla JavaScript, Swift</span>
+  </div>
+  <p>Screenshots are from a private build; the statistics they show are not distributed here or in the code.</p>
+  <p>TFTSolved isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+</footer>
+</body>
+</html>

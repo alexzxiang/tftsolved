@@ -1,0 +1,2002 @@
+{
+ "set": "TFTSet19",
+ "_about": "Hand-made: CommunityDragon has no Set 19 data (standalone client). Edit by hand; see _sources.",
+ "_sources": {
+  "units": "docs/02-set19-data.md roster; Rakan's traits from TFTips",
+  "traits": "TFTips set19/traits, PBE 2026-11-18. True Damage breakpoints [3, 5] from Blitz PBE data (audit 2026-11-20); kind (origin/class/unique) from TFTips' Origins/Classes/Unique grouping",
+  "unlocks": "All 36 conditions agree between TFTips set19/champs and tactics.tools set-update (PBE, checked 2026-11-18); Nasus/Renata/Galio/Syndra from tactics.tools only.; 2026-11-19: Nasus, Renata Glasc, Galio, Syndra treated as normal units on current PBE: seen in shops at levels 4-5 in stage 2 of a recorded VOD (Galio below his level-7 gate), and TFTips lists no condition for exactly these four. Reverse if Riot restores them.; 2026-11-20: Akali (True Damage) bling 375 -> 350 and Janna interest 20 -> 25 per Mobalytics' unlock guide (newest source; docs/knowledge/set19_meta.md section 6)",
+  "shop_odds_by_level": "ASSUMED: copied from Set 18 game data until 19.1 notes; 7-cost odds unknown",
+  "pool": "ASSUMED: Set 18 sizes; 7-costs 9 per Riot's Set 16 rule for units above 5 gold"
+ },
+ "shop_odds_by_level": [
+  [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  [
+   1.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  [
+   0.75,
+   0.25,
+   0.0,
+   0.0,
+   0.0
+  ],
+  [
+   0.55,
+   0.3,
+   0.15,
+   0.0,
+   0.0
+  ],
+  [
+   0.45,
+   0.33,
+   0.2,
+   0.02,
+   0.0
+  ],
+  [
+   0.3,
+   0.4,
+   0.25,
+   0.05,
+   0.0
+  ],
+  [
+   0.19,
+   0.3,
+   0.4,
+   0.1,
+   0.01
+  ],
+  [
+   0.15,
+   0.2,
+   0.32,
+   0.3,
+   0.03
+  ],
+  [
+   0.1,
+   0.17,
+   0.25,
+   0.33,
+   0.15
+  ],
+  [
+   0.05,
+   0.1,
+   0.2,
+   0.4,
+   0.25
+  ],
+  [
+   0.01,
+   0.02,
+   0.12,
+   0.5,
+   0.35
+  ]
+ ],
+ "units": [
+  {
+   "name": "Elise",
+   "cost": 1,
+   "traits": [
+    "Ionic Spark",
+    "Frontman"
+   ],
+   "unlockable": false,
+   "api": "Elise",
+   "pool": 30
+  },
+  {
+   "name": "Gnar",
+   "cost": 1,
+   "traits": [
+    "Pentakill",
+    "Trickshot"
+   ],
+   "unlockable": false,
+   "api": "Gnar",
+   "pool": 30
+  },
+  {
+   "name": "Katarina",
+   "cost": 1,
+   "traits": [
+    "Classical",
+    "Slayer"
+   ],
+   "unlockable": false,
+   "api": "Katarina",
+   "pool": 30
+  },
+  {
+   "name": "Kayn",
+   "cost": 1,
+   "traits": [
+    "Heartsteel",
+    "Slayer"
+   ],
+   "unlockable": false,
+   "api": "Kayn",
+   "pool": 30
+  },
+  {
+   "name": "Kennen",
+   "cost": 1,
+   "traits": [
+    "True Damage",
+    "Bodyguard"
+   ],
+   "unlockable": false,
+   "api": "Kennen",
+   "pool": 30
+  },
+  {
+   "name": "Kobuko",
+   "cost": 1,
+   "traits": [
+    "Hyperpop",
+    "Frontman"
+   ],
+   "unlockable": true,
+   "api": "Kobuko",
+   "pool": 30
+  },
+  {
+   "name": "Lillia",
+   "cost": 1,
+   "traits": [
+    "K/DA",
+    "Bodyguard"
+   ],
+   "unlockable": false,
+   "api": "Lillia",
+   "pool": 30
+  },
+  {
+   "name": "Neeko",
+   "cost": 1,
+   "traits": [
+    "K/DA",
+    "Encore",
+    "Prodigy"
+   ],
+   "unlockable": false,
+   "api": "Neeko",
+   "pool": 30
+  },
+  {
+   "name": "Olaf",
+   "cost": 1,
+   "traits": [
+    "Pentakill",
+    "Rock",
+    "Juggernaut"
+   ],
+   "unlockable": false,
+   "api": "Olaf",
+   "pool": 30
+  },
+  {
+   "name": "Sett",
+   "cost": 1,
+   "traits": [
+    "Heartsteel",
+    "Frontman"
+   ],
+   "unlockable": false,
+   "api": "Sett",
+   "pool": 30
+  },
+  {
+   "name": "Taric",
+   "cost": 1,
+   "traits": [
+    "Beach Pop",
+    "Juggernaut"
+   ],
+   "unlockable": false,
+   "api": "Taric",
+   "pool": 30
+  },
+  {
+   "name": "Varus",
+   "cost": 1,
+   "traits": [
+    "Rock",
+    "Encore"
+   ],
+   "unlockable": false,
+   "api": "Varus",
+   "pool": 30
+  },
+  {
+   "name": "Yunara",
+   "cost": 1,
+   "traits": [
+    "Ionic Spark",
+    "Swiftstriker"
+   ],
+   "unlockable": false,
+   "api": "Yunara",
+   "pool": 30
+  },
+  {
+   "name": "Ziggs",
+   "cost": 1,
+   "traits": [
+    "Hyperpop",
+    "Arcanist",
+    "Swiftstriker"
+   ],
+   "unlockable": false,
+   "api": "Ziggs",
+   "pool": 30
+  },
+  {
+   "name": "Zoe",
+   "cost": 1,
+   "traits": [
+    "Beach Pop",
+    "Arcanist"
+   ],
+   "unlockable": false,
+   "api": "Zoe",
+   "pool": 30
+  },
+  {
+   "name": "Annie",
+   "cost": 2,
+   "traits": [
+    "Ionic Spark",
+    "Arcanist",
+    "Juggernaut"
+   ],
+   "unlockable": false,
+   "api": "Annie",
+   "pool": 25
+  },
+  {
+   "name": "Ashe",
+   "cost": 2,
+   "traits": [
+    "Beach Pop",
+    "Swiftstriker"
+   ],
+   "unlockable": true,
+   "api": "Ashe",
+   "pool": 25
+  },
+  {
+   "name": "Camille",
+   "cost": 2,
+   "traits": [
+    "Rock",
+    "Slayer"
+   ],
+   "unlockable": false,
+   "api": "Camille",
+   "pool": 25
+  },
+  {
+   "name": "Ezreal",
+   "cost": 2,
+   "traits": [
+    "Heartsteel",
+    "Encore"
+   ],
+   "unlockable": false,
+   "api": "Ezreal",
+   "pool": 25
+  },
+  {
+   "name": "Gragas",
+   "cost": 2,
+   "traits": [
+    "K/DA",
+    "Juggernaut"
+   ],
+   "unlockable": false,
+   "api": "Gragas",
+   "pool": 25
+  },
+  {
+   "name": "Illaoi",
+   "cost": 2,
+   "traits": [
+    "Illbeats",
+    "Frontman"
+   ],
+   "unlockable": false,
+   "api": "Illaoi",
+   "pool": 25
+  },
+  {
+   "name": "Jax",
+   "cost": 2,
+   "traits": [
+    "EDM",
+    "Bodyguard",
+    "Swiftstriker"
+   ],
+   "unlockable": false,
+   "api": "Jax",
+   "pool": 25
+  },
+  {
+   "name": "Karthus",
+   "cost": 2,
+   "traits": [
+    "Pentakill",
+    "Arcanist"
+   ],
+   "unlockable": false,
+   "api": "Karthus",
+   "pool": 25
+  },
+  {
+   "name": "Lucian",
+   "cost": 2,
+   "traits": [
+    "Jazz",
+    "Hitmaker",
+    "Encore"
+   ],
+   "unlockable": false,
+   "api": "Lucian",
+   "pool": 25
+  },
+  {
+   "name": "Lulu",
+   "cost": 2,
+   "traits": [
+    "Hyperpop",
+    "Choreographer"
+   ],
+   "unlockable": true,
+   "api": "Lulu",
+   "pool": 25
+  },
+  {
+   "name": "Lux",
+   "cost": 2,
+   "traits": [
+    "Ionic Spark",
+    "Prodigy"
+   ],
+   "unlockable": false,
+   "api": "Lux",
+   "pool": 25
+  },
+  {
+   "name": "Nasus",
+   "cost": 2,
+   "traits": [
+    "Classical",
+    "Bodyguard"
+   ],
+   "unlockable": false,
+   "api": "Nasus",
+   "pool": 25
+  },
+  {
+   "name": "Qiyana",
+   "cost": 2,
+   "traits": [
+    "True Damage",
+    "Renegade"
+   ],
+   "unlockable": false,
+   "api": "Qiyana",
+   "pool": 25
+  },
+  {
+   "name": "Renata Glasc",
+   "cost": 2,
+   "traits": [
+    "Classical",
+    "Choreographer"
+   ],
+   "unlockable": false,
+   "api": "Renata Glasc",
+   "pool": 25
+  },
+  {
+   "name": "Renekton",
+   "cost": 2,
+   "traits": [
+    "Beach Pop",
+    "Frontman"
+   ],
+   "unlockable": false,
+   "api": "Renekton",
+   "pool": 25
+  },
+  {
+   "name": "Samira",
+   "cost": 2,
+   "traits": [
+    "Classical",
+    "Renegade",
+    "Trickshot"
+   ],
+   "unlockable": true,
+   "api": "Samira",
+   "pool": 25
+  },
+  {
+   "name": "Seraphine",
+   "cost": 2,
+   "traits": [
+    "Indie"
+   ],
+   "unlockable": true,
+   "api": "Seraphine",
+   "pool": 25
+  },
+  {
+   "name": "Tristana",
+   "cost": 2,
+   "traits": [
+    "Hyperpop",
+    "Hitmaker"
+   ],
+   "unlockable": true,
+   "api": "Tristana",
+   "pool": 25
+  },
+  {
+   "name": "Amumu",
+   "cost": 3,
+   "traits": [
+    "Emo"
+   ],
+   "unlockable": false,
+   "api": "Amumu",
+   "pool": 18
+  },
+  {
+   "name": "Bard",
+   "cost": 3,
+   "traits": [
+    "Jazz",
+    "Swiftstriker"
+   ],
+   "unlockable": false,
+   "api": "Bard",
+   "pool": 18
+  },
+  {
+   "name": "Braum",
+   "cost": 3,
+   "traits": [
+    "Illbeats",
+    "Juggernaut"
+   ],
+   "unlockable": false,
+   "api": "Braum",
+   "pool": 18
+  },
+  {
+   "name": "Briar",
+   "cost": 3,
+   "traits": [
+    "Ionic Spark",
+    "Slayer"
+   ],
+   "unlockable": false,
+   "api": "Briar",
+   "pool": 18
+  },
+  {
+   "name": "Draven",
+   "cost": 3,
+   "traits": [
+    "Illbeats",
+    "Trickshot"
+   ],
+   "unlockable": false,
+   "api": "Draven",
+   "pool": 18
+  },
+  {
+   "name": "Ekko",
+   "cost": 3,
+   "traits": [
+    "True Damage",
+    "Juggernaut",
+    "Prodigy"
+   ],
+   "unlockable": false,
+   "api": "Ekko",
+   "pool": 18
+  },
+  {
+   "name": "Evelynn",
+   "cost": 3,
+   "traits": [
+    "K/DA",
+    "Renegade"
+   ],
+   "unlockable": true,
+   "api": "Evelynn",
+   "pool": 18
+  },
+  {
+   "name": "Galio",
+   "cost": 3,
+   "traits": [
+    "Jazz",
+    "Frontman"
+   ],
+   "unlockable": false,
+   "api": "Galio",
+   "pool": 18
+  },
+  {
+   "name": "K'Sante",
+   "cost": 3,
+   "traits": [
+    "Heartsteel",
+    "Bodyguard"
+   ],
+   "unlockable": false,
+   "api": "K'Sante",
+   "pool": 18
+  },
+  {
+   "name": "Kai'Sa",
+   "cost": 3,
+   "traits": [
+    "K/DA",
+    "Trickshot"
+   ],
+   "unlockable": false,
+   "api": "Kai'Sa",
+   "pool": 18
+  },
+  {
+   "name": "Malzahar",
+   "cost": 3,
+   "traits": [
+    "Composer",
+    "Prodigy"
+   ],
+   "unlockable": false,
+   "api": "Malzahar",
+   "pool": 18
+  },
+  {
+   "name": "Senna",
+   "cost": 3,
+   "traits": [
+    "True Damage",
+    "Hitmaker"
+   ],
+   "unlockable": false,
+   "api": "Senna",
+   "pool": 18
+  },
+  {
+   "name": "Swain",
+   "cost": 3,
+   "traits": [
+    "Rock",
+    "Arcanist",
+    "Frontman"
+   ],
+   "unlockable": false,
+   "api": "Swain",
+   "pool": 18
+  },
+  {
+   "name": "Syndra",
+   "cost": 3,
+   "traits": [
+    "Beach Pop",
+    "Choreographer"
+   ],
+   "unlockable": false,
+   "api": "Syndra",
+   "pool": 18
+  },
+  {
+   "name": "Tibbers",
+   "cost": 3,
+   "traits": [
+    "Ionic Spark",
+    "Bodyguard"
+   ],
+   "unlockable": true,
+   "api": "Tibbers",
+   "pool": 18
+  },
+  {
+   "name": "Viego",
+   "cost": 3,
+   "traits": [
+    "Pentakill",
+    "Choreographer",
+    "Slayer"
+   ],
+   "unlockable": false,
+   "api": "Viego",
+   "pool": 18
+  },
+  {
+   "name": "Ahri",
+   "cost": 4,
+   "traits": [
+    "K/DA",
+    "Choreographer"
+   ],
+   "unlockable": false,
+   "api": "Ahri",
+   "pool": 10
+  },
+  {
+   "name": "Alistar",
+   "cost": 4,
+   "traits": [
+    "Country"
+   ],
+   "unlockable": true,
+   "api": "Alistar",
+   "pool": 10
+  },
+  {
+   "name": "Alune",
+   "cost": 4,
+   "traits": [
+    "Heartsteel",
+    "Manager",
+    "Prodigy"
+   ],
+   "unlockable": true,
+   "api": "Alune",
+   "pool": 10
+  },
+  {
+   "name": "Aurora",
+   "cost": 4,
+   "traits": [
+    "Ionic Spark",
+    "Renegade"
+   ],
+   "unlockable": false,
+   "api": "Aurora",
+   "pool": 10
+  },
+  {
+   "name": "Garen",
+   "cost": 4,
+   "traits": [
+    "Synthwave",
+    "Choreographer"
+   ],
+   "unlockable": false,
+   "api": "Garen",
+   "pool": 10
+  },
+  {
+   "name": "Graves",
+   "cost": 4,
+   "traits": [
+    "Beach Pop",
+    "Renegade"
+   ],
+   "unlockable": false,
+   "api": "Graves",
+   "pool": 10
+  },
+  {
+   "name": "Jhin",
+   "cost": 4,
+   "traits": [
+    "Classical",
+    "Encore"
+   ],
+   "unlockable": false,
+   "api": "Jhin",
+   "pool": 10
+  },
+  {
+   "name": "Jinx",
+   "cost": 4,
+   "traits": [
+    "Ionic Spark",
+    "Hitmaker"
+   ],
+   "unlockable": true,
+   "api": "Jinx",
+   "pool": 10
+  },
+  {
+   "name": "Kayle",
+   "cost": 4,
+   "traits": [
+    "Pentakill",
+    "Swiftstriker"
+   ],
+   "unlockable": true,
+   "api": "Kayle",
+   "pool": 10
+  },
+  {
+   "name": "Leona",
+   "cost": 4,
+   "traits": [
+    "K/DA",
+    "Bodyguard",
+    "Manager"
+   ],
+   "unlockable": false,
+   "api": "Leona",
+   "pool": 10
+  },
+  {
+   "name": "Locke",
+   "cost": 4,
+   "traits": [
+    "Rock",
+    "Swiftstriker"
+   ],
+   "unlockable": false,
+   "api": "Locke",
+   "pool": 10
+  },
+  {
+   "name": "Mel",
+   "cost": 4,
+   "traits": [
+    "R&B",
+    "Arcanist"
+   ],
+   "unlockable": false,
+   "api": "Mel",
+   "pool": 10
+  },
+  {
+   "name": "Shyvana",
+   "cost": 4,
+   "traits": [
+    "Ionic Spark",
+    "Frontman"
+   ],
+   "unlockable": false,
+   "api": "Shyvana",
+   "pool": 10
+  },
+  {
+   "name": "Thresh",
+   "cost": 4,
+   "traits": [
+    "Classical",
+    "Frontman"
+   ],
+   "unlockable": true,
+   "api": "Thresh",
+   "pool": 10
+  },
+  {
+   "name": "Vayne",
+   "cost": 4,
+   "traits": [
+    "Rock",
+    "Trickshot"
+   ],
+   "unlockable": true,
+   "api": "Vayne",
+   "pool": 10
+  },
+  {
+   "name": "Wukong",
+   "cost": 4,
+   "traits": [
+    "Gu Feng"
+   ],
+   "unlockable": true,
+   "api": "Wukong",
+   "pool": 10
+  },
+  {
+   "name": "Xayah",
+   "cost": 4,
+   "traits": [
+    "Gu Feng",
+    "Hitmaker"
+   ],
+   "unlockable": false,
+   "api": "Xayah",
+   "pool": 10
+  },
+  {
+   "name": "Yasuo",
+   "cost": 4,
+   "traits": [
+    "True Damage",
+    "Slayer"
+   ],
+   "unlockable": true,
+   "api": "Yasuo",
+   "pool": 10
+  },
+  {
+   "name": "Yone",
+   "cost": 4,
+   "traits": [
+    "Heartsteel",
+    "Slayer"
+   ],
+   "unlockable": false,
+   "api": "Yone",
+   "pool": 10
+  },
+  {
+   "name": "Yorick",
+   "cost": 4,
+   "traits": [
+    "Pentakill",
+    "Juggernaut"
+   ],
+   "unlockable": false,
+   "api": "Yorick",
+   "pool": 10
+  },
+  {
+   "name": "Yuumi",
+   "cost": 4,
+   "traits": [
+    "Illbeats",
+    "Encore"
+   ],
+   "unlockable": false,
+   "api": "Yuumi",
+   "pool": 10
+  },
+  {
+   "name": "Zac",
+   "cost": 4,
+   "traits": [
+    "Beach Pop",
+    "Juggernaut"
+   ],
+   "unlockable": true,
+   "api": "Zac",
+   "pool": 10
+  },
+  {
+   "name": "Akali (K/DA)",
+   "cost": 5,
+   "traits": [
+    "K/DA"
+   ],
+   "unlockable": true,
+   "api": "Akali (K/DA)",
+   "pool": 9
+  },
+  {
+   "name": "Akali (True Damage)",
+   "cost": 5,
+   "traits": [
+    "True Damage",
+    "Freestyle"
+   ],
+   "unlockable": true,
+   "api": "Akali (True Damage)",
+   "pool": 9
+  },
+  {
+   "name": "Aphelios",
+   "cost": 5,
+   "traits": [
+    "Heartsteel"
+   ],
+   "unlockable": true,
+   "api": "Aphelios",
+   "pool": 9
+  },
+  {
+   "name": "Dr. Mundo",
+   "cost": 5,
+   "traits": [
+    "Record Mogul",
+    "Manager"
+   ],
+   "unlockable": false,
+   "api": "Dr. Mundo",
+   "pool": 9
+  },
+  {
+   "name": "Gwen",
+   "cost": 5,
+   "traits": [
+    "Ionic Spark",
+    "Melodic Heart"
+   ],
+   "unlockable": true,
+   "api": "Gwen",
+   "pool": 9
+  },
+  {
+   "name": "Janna",
+   "cost": 5,
+   "traits": [
+    "Gu Feng",
+    "Windblessed",
+    "Prodigy"
+   ],
+   "unlockable": true,
+   "api": "Janna",
+   "pool": 9
+  },
+  {
+   "name": "Lee Sin",
+   "cost": 5,
+   "traits": [
+    "Gu Feng"
+   ],
+   "unlockable": true,
+   "api": "Lee Sin",
+   "pool": 9
+  },
+  {
+   "name": "Miss Fortune",
+   "cost": 5,
+   "traits": [
+    "8-Bit",
+    "Hitmaker"
+   ],
+   "unlockable": false,
+   "api": "Miss Fortune",
+   "pool": 9
+  },
+  {
+   "name": "Mordekaiser",
+   "cost": 5,
+   "traits": [
+    "Pentakill"
+   ],
+   "unlockable": true,
+   "api": "Mordekaiser",
+   "pool": 9
+  },
+  {
+   "name": "Nidalee",
+   "cost": 5,
+   "traits": [
+    "Mariachi",
+    "Choreographer"
+   ],
+   "unlockable": false,
+   "api": "Nidalee",
+   "pool": 9
+  },
+  {
+   "name": "Nunu & Willump",
+   "cost": 5,
+   "traits": [
+    "Disco",
+    "Frontman"
+   ],
+   "unlockable": false,
+   "api": "Nunu & Willump",
+   "pool": 9
+  },
+  {
+   "name": "Pyke",
+   "cost": 5,
+   "traits": [
+    "Rock",
+    "Renegade"
+   ],
+   "unlockable": true,
+   "api": "Pyke",
+   "pool": 9
+  },
+  {
+   "name": "Rell",
+   "cost": 5,
+   "traits": [
+    "R&B",
+    "Beat Master"
+   ],
+   "unlockable": false,
+   "api": "Rell",
+   "pool": 9
+  },
+  {
+   "name": "Taliyah",
+   "cost": 5,
+   "traits": [
+    "Beach Pop",
+    "Encore"
+   ],
+   "unlockable": true,
+   "api": "Taliyah",
+   "pool": 9
+  },
+  {
+   "name": "Teemo",
+   "cost": 5,
+   "traits": [
+    "Hyperpop",
+    "Hype Man"
+   ],
+   "unlockable": true,
+   "api": "Teemo",
+   "pool": 9
+  },
+  {
+   "name": "Twisted Fate",
+   "cost": 5,
+   "traits": [
+    "Tango",
+    "Trickshot"
+   ],
+   "unlockable": false,
+   "api": "Twisted Fate",
+   "pool": 9
+  },
+  {
+   "name": "Vi",
+   "cost": 5,
+   "traits": [
+    "EDM",
+    "Juggernaut"
+   ],
+   "unlockable": false,
+   "api": "Vi",
+   "pool": 9
+  },
+  {
+   "name": "Vladimir",
+   "cost": 5,
+   "traits": [
+    "Classical",
+    "Arcanist"
+   ],
+   "unlockable": true,
+   "api": "Vladimir",
+   "pool": 9
+  },
+  {
+   "name": "Zeri",
+   "cost": 5,
+   "traits": [
+    "Goth",
+    "Swiftstriker"
+   ],
+   "unlockable": false,
+   "api": "Zeri",
+   "pool": 9
+  },
+  {
+   "name": "Baron Nashor",
+   "cost": 7,
+   "traits": [
+    "One Monster Band"
+   ],
+   "unlockable": true,
+   "api": "Baron Nashor",
+   "pool": 9
+  },
+  {
+   "name": "Rakan",
+   "cost": 7,
+   "traits": [
+    "Boy Band",
+    "Choreographer"
+   ],
+   "unlockable": true,
+   "api": "Rakan",
+   "pool": 9
+  },
+  {
+   "name": "Smeech",
+   "cost": 7,
+   "traits": [
+    "Jazz",
+    "Slayer"
+   ],
+   "unlockable": true,
+   "api": "Smeech",
+   "pool": 9
+  },
+  {
+   "name": "Sona",
+   "cost": 7,
+   "traits": [
+    "Producer",
+    "Collab"
+   ],
+   "unlockable": true,
+   "api": "Sona",
+   "pool": 9
+  }
+ ],
+ "traits": [
+  {
+   "api": "Beach Pop",
+   "name": "Beach Pop",
+   "counts": "units",
+   "breakpoints": [
+    3,
+    5,
+    7
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Classical",
+   "name": "Classical",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    4,
+    6
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "EDM",
+   "name": "EDM",
+   "counts": "units",
+   "breakpoints": [
+    2
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Gu Feng",
+   "name": "Gu Feng",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Heartsteel",
+   "name": "Heartsteel",
+   "counts": "units",
+   "breakpoints": [
+    1,
+    3,
+    5,
+    7
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Hyperpop",
+   "name": "Hyperpop",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Illbeats",
+   "name": "Illbeats",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Ionic Spark",
+   "name": "Ionic Spark",
+   "counts": "units",
+   "breakpoints": [
+    3,
+    5,
+    7,
+    10
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Jazz",
+   "name": "Jazz",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "K/DA",
+   "name": "K/DA",
+   "counts": "stars",
+   "breakpoints": [
+    3,
+    5,
+    7,
+    10,
+    13,
+    15,
+    21
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Pentakill",
+   "name": "Pentakill",
+   "counts": "units",
+   "breakpoints": [
+    3,
+    5,
+    7
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "R&B",
+   "name": "R&B",
+   "counts": "units",
+   "breakpoints": [
+    1,
+    2
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "Rock",
+   "name": "Rock",
+   "counts": "stars",
+   "breakpoints": [
+    3,
+    4,
+    5,
+    7
+   ],
+   "kind": "origin"
+  },
+  {
+   "api": "True Damage",
+   "name": "True Damage",
+   "counts": "units",
+   "breakpoints": [
+    3,
+    5
+   ],
+   "kind": "origin",
+   "note": "first breakpoint read from the in-game panel ('/3'); higher tiers not seen yet (2026-11-19)"
+  },
+  {
+   "api": "Arcanist",
+   "name": "Arcanist",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    4,
+    6
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Bodyguard",
+   "name": "Bodyguard",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    4,
+    6
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Choreographer",
+   "name": "Choreographer",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Collab",
+   "name": "Collab",
+   "counts": "units",
+   "breakpoints": [
+    3,
+    5
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Encore",
+   "name": "Encore",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    4
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Frontman",
+   "name": "Frontman",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    4,
+    6
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Hitmaker",
+   "name": "Hitmaker",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    4
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Juggernaut",
+   "name": "Juggernaut",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    4,
+    6
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Manager",
+   "name": "Manager",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Prodigy",
+   "name": "Prodigy",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Renegade",
+   "name": "Renegade",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Slayer",
+   "name": "Slayer",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    4,
+    6
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Swiftstriker",
+   "name": "Swiftstriker",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "Trickshot",
+   "name": "Trickshot",
+   "counts": "units",
+   "breakpoints": [
+    2,
+    3,
+    4
+   ],
+   "kind": "class"
+  },
+  {
+   "api": "8-Bit",
+   "name": "8-Bit",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Beat Master",
+   "name": "Beat Master",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Boy Band",
+   "name": "Boy Band",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Composer",
+   "name": "Composer",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Country",
+   "name": "Country",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Disco",
+   "name": "Disco",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Emo",
+   "name": "Emo",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Freestyle",
+   "name": "Freestyle",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Goth",
+   "name": "Goth",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Hype Man",
+   "name": "Hype Man",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Indie",
+   "name": "Indie",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Mariachi",
+   "name": "Mariachi",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Melodic Heart",
+   "name": "Melodic Heart",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "One Monster Band",
+   "name": "One Monster Band",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Producer",
+   "name": "Producer",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Record Mogul",
+   "name": "Record Mogul",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Synthwave",
+   "name": "Synthwave",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Tango",
+   "name": "Tango",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  },
+  {
+   "api": "Windblessed",
+   "name": "Windblessed",
+   "counts": "units",
+   "breakpoints": [
+    1
+   ],
+   "kind": "unique"
+  }
+ ],
+ "rules": null,
+ "unlocks": [
+  {
+   "unit": "Kobuko",
+   "min_level": null,
+   "when": {
+    "unit_state": {
+     "units": [
+      "Ziggs"
+     ],
+     "stars": 2,
+     "items": 1
+    }
+   }
+  },
+  {
+   "unit": "Ashe",
+   "min_level": null,
+   "when": {
+    "items_on": {
+     "traits": [
+      "Beach Pop"
+     ],
+     "n": 2
+    }
+   }
+  },
+  {
+   "unit": "Lulu",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "hyperpop_casts",
+     "n": 10,
+     "requires_trait": "Hyperpop"
+    }
+   }
+  },
+  {
+   "unit": "Samira",
+   "min_level": null,
+   "when": {
+    "items_on": {
+     "traits": [
+      "Classical",
+      "Renegade",
+      "Trickshot"
+     ],
+     "n": 2
+    }
+   }
+  },
+  {
+   "unit": "Seraphine",
+   "min_level": null,
+   "when": {
+    "window": {
+     "counter": "rerolls_before_2_carousel",
+     "n": 4,
+     "deadline": "2-4"
+    }
+   }
+  },
+  {
+   "unit": "Tristana",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "hyperpop_kills",
+     "n": 5,
+     "requires_trait": "Hyperpop"
+    }
+   }
+  },
+  {
+   "unit": "Evelynn",
+   "min_level": null,
+   "when": {
+    "board_unique": {
+     "traits": [
+      "K/DA",
+      "Renegade"
+     ],
+     "n": 3
+    }
+   }
+  },
+  {
+   "unit": "Tibbers",
+   "min_level": null,
+   "when": {
+    "unit_state": {
+     "units": [
+      "Annie"
+     ],
+     "stars": 2,
+     "items": 1
+    }
+   }
+  },
+  {
+   "unit": "Alistar",
+   "min_level": 7,
+   "when": {
+    "item_on_role": {
+     "item": "Chain Vest",
+     "roles": [
+      "Caster",
+      "Marksman"
+     ]
+    }
+   }
+  },
+  {
+   "unit": "Alune",
+   "min_level": 7,
+   "when": {
+    "board_unique": {
+     "traits": [
+      "Heartsteel",
+      "Prodigy"
+     ],
+     "n": 4
+    }
+   }
+  },
+  {
+   "unit": "Jinx",
+   "min_level": 7,
+   "when": {
+    "items_on": {
+     "traits": [
+      "Ionic Spark",
+      "Hitmaker"
+     ],
+     "n": 3
+    }
+   }
+  },
+  {
+   "unit": "Kayle",
+   "min_level": 7,
+   "when": {
+    "board_unique": {
+     "traits": [
+      "Pentakill",
+      "Swiftstriker"
+     ],
+     "n": 4
+    }
+   }
+  },
+  {
+   "unit": "Thresh",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "captivated_seconds",
+     "n": 300,
+     "requires_trait": "Classical"
+    }
+   }
+  },
+  {
+   "unit": "Vayne",
+   "min_level": 7,
+   "when": {
+    "counter": {
+     "name": "rock_combats",
+     "n": 3,
+     "requires_trait": "Rock"
+    }
+   }
+  },
+  {
+   "unit": "Wukong",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "xayah_ally_damage",
+     "n": 25000,
+     "requires_unit": "Xayah"
+    }
+   }
+  },
+  {
+   "unit": "Yasuo",
+   "min_level": 7,
+   "when": {
+    "board_stars": {
+     "traits": [
+      "True Damage",
+      "Slayer"
+     ],
+     "n": 7
+    }
+   }
+  },
+  {
+   "unit": "Zac",
+   "min_level": 7,
+   "when": {
+    "board_unique": {
+     "traits": [
+      "Beach Pop",
+      "Juggernaut"
+     ],
+     "n": 5
+    }
+   }
+  },
+  {
+   "unit": "Akali (K/DA)",
+   "min_level": null,
+   "when": {
+    "board_stars": {
+     "traits": [
+      "K/DA"
+     ],
+     "n": 12
+    }
+   },
+   "excludes": [
+    "Akali (True Damage)"
+   ]
+  },
+  {
+   "unit": "Akali (True Damage)",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "bling",
+     "n": 350
+    }
+   },
+   "excludes": [
+    "Akali (K/DA)"
+   ]
+  },
+  {
+   "unit": "Aphelios",
+   "min_level": null,
+   "when": {
+    "unit_state": {
+     "units": [
+      "Alune",
+      "Yone"
+     ],
+     "stars": 2
+    }
+   }
+  },
+  {
+   "unit": "Gwen",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "ionic_cheers",
+     "n": 250,
+     "requires_trait": "Ionic Spark"
+    }
+   }
+  },
+  {
+   "unit": "Janna",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "xayah_interest",
+     "n": 25,
+     "requires_unit": "Xayah"
+    }
+   }
+  },
+  {
+   "unit": "Lee Sin",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "xayah_player_damage",
+     "n": 40,
+     "requires_unit": "Xayah"
+    }
+   }
+  },
+  {
+   "unit": "Mordekaiser",
+   "min_level": null,
+   "when": {
+    "board_stars": {
+     "traits": [
+      "Pentakill"
+     ],
+     "n": 10
+    }
+   }
+  },
+  {
+   "unit": "Pyke",
+   "min_level": 7,
+   "when": {
+    "gold_end_combat": {
+     "n": 85
+    }
+   }
+  },
+  {
+   "unit": "Taliyah",
+   "min_level": null,
+   "when": {
+    "beach_pop_hex_each_cost": {}
+   }
+  },
+  {
+   "unit": "Teemo",
+   "min_level": null,
+   "when": {
+    "counter": {
+     "name": "hype",
+     "n": 900
+    }
+   }
+  },
+  {
+   "unit": "Vladimir",
+   "min_level": 8,
+   "when": {
+    "front_rows_max": {
+     "n": 1
+    }
+   }
+  },
+  {
+   "unit": "Baron Nashor",
+   "min_level": null,
+   "when": {
+    "all_of": [
+     {
+      "counter": {
+       "name": "instruments",
+       "n": 5
+      }
+     },
+     {
+      "counter": {
+       "name": "malzahar_damage",
+       "n": 60000,
+       "requires_unit": "Malzahar"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "unit": "Rakan",
+   "min_level": 8,
+   "when": {
+    "streak": {
+     "win": 4,
+     "loss": 3
+    }
+   }
+  },
+  {
+   "unit": "Smeech",
+   "min_level": 9,
+   "when": {
+    "traits_active": {
+     "n": 8,
+     "non_unique": true
+    }
+   }
+  },
+  {
+   "unit": "Sona",
+   "min_level": 10,
+   "when": {
+    "counter": {
+     "name": "collab_inspires",
+     "n": 15,
+     "requires_trait": "Collab"
+    }
+   }
+  }
+ ]
+}
