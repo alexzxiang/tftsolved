@@ -37,14 +37,14 @@
 <main id="main">
   <div class="hero">
     <h1>A Teamfight Tactics line finder that trusts only <em>what it can measure</em>.</h1>
-    <p class="lede">TFTSolved takes the board, items and augments you hold and ranks the lines you can reach in Set 19: the placement each line can expect, the items it wants, when it comes online, and why it ranks where it does.</p>
+    <p class="lede">TFTSolved helps you plan and review Teamfight Tactics games. Give it a board, items and augments, and it ranks the lines that board can reach in Set 19: the placement each line can expect, the items it wants, when it comes online, and why it ranks where it does.</p>
     <div class="actions">
       <a class="btn primary" href="#methods">Read the methods</a>
       <a class="btn" href="https://github.com/alexzxiang/tftsolved">View the code on GitHub</a>
     </div>
     <figure class="shot-hero">
       <img src="/img/app.png" width="1440" height="900" alt="The TFTSolved team builder: a K/DA board of eight two-star champions on a hex grid, with augments, items and a board-strength panel reading 58 percent against the lobby at round 4-5, the champion pool sorted by cost, and the active traits.">
-      <figcaption>The team builder at round 4-5 with 62 HP: eight two-star K/DA champions, their items and augments, and the board's chance to beat the lobby at that round.</figcaption>
+      <figcaption>Reviewing a K/DA board from round 4-5: eight two-star champions, their items and augments, and how the board compared with the lobby at that round.</figcaption>
     </figure>
   </div>
 
@@ -62,7 +62,7 @@
     <div class="gallery">
       <figure class="wide shot">
         <img src="/img/lines.png" width="1440" height="727" loading="lazy" alt="Two suggested lines, K/DA Leona and K/DA Evelynn, each with its expected placement. Below, K/DA Leona's breakdown: MetaTFT average 3.99, then your HP minus 0.51, items minus 0.50 and augments plus 0.19, for an expected 3.18, with a reason and its data source for every step.">
-        <figcaption><strong>Ask why.</strong> Each line starts from its meta average and moves, step by step, by what you hold: your HP at that round, your items and your augments. Every step names the data behind it.</figcaption>
+        <figcaption><strong>Ask why.</strong> Each line starts from its meta average and moves, step by step, by the board you're planning or reviewing: its items, its augments and, in a post-game review, the HP you had at that round. Every step names the data behind it.</figcaption>
       </figure>
       <div class="pair">
         <img class="shot" src="/img/trait-mixed.png" width="331" height="296" loading="lazy" alt="The Bodyguard trait panel: its effect at 2, 4 and 6 units, and its seven champions, with the two on the board lit and the other five greyed out.">
@@ -96,7 +96,7 @@
       </li>
       <li>
         <h3>Can you survive until it pays?</h3>
-        <p>An absorbing Markov chain over round and HP, solved exactly, follows each line's power curve to the round it comes online and asks how often your HP gets there.</p>
+        <p>An absorbing Markov chain over round and HP, solved exactly, follows each line's power curve to the round it comes online. In a post-game review it shows which lines the HP you had could have reached.</p>
         <p class="evidence">Game-to-game spread fitted to 19,647 Set 18 knockouts; every comp anchored to its meta average within 0.023 places.</p>
       </li>
     </ol>
@@ -145,7 +145,7 @@
   <section aria-labelledby="rules-h">
     <h2 id="rules-h">Built within the rules</h2>
     <div class="prose">
-      <p>Riot's policies forbid tools that make suggestions from a player's live game state, so TFTSolved takes manual input and is meant for planning and post-game review.</p>
+      <p>Riot's policies forbid tools that make suggestions from a player's live game state, so TFTSolved is a planning and post-game review tool: manual input only, no overlay, nothing that reads the game client, and no tracking of opponents.</p>
       <p>Its Set 19 meta statistics come from MetaTFT and lolchess, whose terms keep that data private, so it stays on my machine; neither this page nor the public code contains it. The next version runs on its own data: a Riot API crawl of ranked Set 19 games once the set goes live.</p>
     </div>
     <p class="close">A lone three-star Ziggs now beats a typical single unit 94 percent of the time, and every point of that number has a source.</p>
