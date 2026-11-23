@@ -39,3 +39,4 @@ __pycache__/
 *.mlmodel
 .impeccable/
 .playwright-mcp/
+.github/hooks/
